@@ -19,6 +19,7 @@
     "@mui/material": "^5.13.1",
     "@mui/styled-engine": "5.12.3",
     "@pathofdev/react-tag-input": "1.0.7",
+    "@stripe/stripe-js": "^7.5.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",

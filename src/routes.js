@@ -35,7 +35,7 @@ Coded by www.creative-tim.com
 
 // Argon Dashboard 2 MUI layouts
 import BrokeragesAndAccounts from "layouts/brokeragesAndAccounts";
-import PortfolioFinancialStatements from "layouts/portfolioFinancialStatements";
+import BalanceSheet from "layouts/balanceSheet/BalanceSheet";
 import Billing from "layouts/billing";
 import IncomeStatementPage from "layouts/incomeStatement/IncomeStatementPage";
 
@@ -53,13 +53,13 @@ const routes = [
   },
   {
     type: "route",
-    name: "Portfolio Financial Statements",
-    key: "portfolioFinancialStatements",
-    route: "/portfolioFinancialStatements",
+    name: "Balance Sheet",
+    key: "balanceSheet",
+    route: "/balanceSheet",
     icon: (
       <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-calendar-grid-58" />
     ),
-    component: <PortfolioFinancialStatements />,
+    component: <BalanceSheet />,
   },
   {
     type: "route",

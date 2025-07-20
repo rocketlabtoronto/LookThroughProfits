@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from "@mui/material";
-import ArgonTypography from "components/ArgonTypography";
 
 function getTotals(rows, columns) {
   const totals = {};
@@ -22,21 +20,20 @@ function getTotals(rows, columns) {
 
 function ProRataTable({ loading, data }) {
   if (loading) {
-    return <div className="text-center my-3">Loading...</div>;
+    return <p>Loading...</p>;
   }
+
   if (!data || !data.columns || !data.rows) {
-    return <div className="text-center my-3">No financial data available.</div>;
+    return <p>No financial data available.</p>;
   }
   const totals = getTotals(data.rows, data.columns);
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered table-hover">
-        <thead className="thead-light">
+    <div style={{ padding: "1rem" }}>
+      <table border="1" cellPadding="6" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <thead>
           <tr>
             {data.columns.map((col, idx) => (
-              <th key={idx} className={col.align === "right" ? "text-end" : "text-start"}>
-                {col.name}
-              </th>
+              <th key={idx} style={{ textAlign: col.align }}>{col.name}</th>
             ))}
           </tr>
         </thead>
@@ -44,7 +41,7 @@ function ProRataTable({ loading, data }) {
           {data.rows.map((row, rIdx) => (
             <tr key={rIdx}>
               {data.columns.map((col, cIdx) => (
-                <td key={cIdx} className={col.align === "right" ? "text-end" : "text-start"}>
+                <td key={cIdx} style={{ textAlign: col.align }}>
                   {row[col.name] || "—"}
                 </td>
               ))}
@@ -63,6 +60,7 @@ function ProRataTable({ loading, data }) {
   );
 }
 
+
 ProRataTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
@@ -71,9 +69,9 @@ ProRataTable.propTypes = {
         name: PropTypes.string.isRequired,
         align: PropTypes.string
       })
-    ),
-    rows: PropTypes.arrayOf(PropTypes.object)
-  })
+    ).isRequired,
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired
+  }).isRequired
 };
 
 export default ProRataTable;

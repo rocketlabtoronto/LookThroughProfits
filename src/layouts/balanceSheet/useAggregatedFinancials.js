@@ -5,19 +5,19 @@ import useAppStore from "store";
 const columns = [
   { name: "Company", align: "left" },
   { name: "Ownership Share", align: "right" },
-  { name: "Revenue", align: "right" },
-  { name: "Gross Profit", align: "right" },
-  { name: "Operating Profit", align: "right" },
-  { name: "Net Income", align: "right" }
+  { name: "Assets", align: "right" },
+  { name: "Equity", align: "right" },
+  { name: "Cash & Equivalents", align: "right" },
+  { name: "Liabilities", align: "right" }
 ];
 
-function useAggregatedIncomeStatement() {
+function useAggregatedFinancials() {
   const [aggregatedData, setAggregatedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const portfolioHoldings = useAppStore((state) => state.accountHoldings) || [];
 
   useEffect(() => {
-    async function loadAggregatedIncomeStatement() {
+    async function loadAggregatedFinancials() {
       try {
         const rows = await Promise.all(
           portfolioHoldings.map(async ({ Symbol, Quantity }) => {
@@ -29,10 +29,10 @@ function useAggregatedIncomeStatement() {
               if (!Array.isArray(financials) || financials.length === 0) return null;
 
               const requiredTags = [
-                "Revenue",
-                "GrossProfit",
-                "OperatingProfit",
-                "NetIncome",
+                "Assets",
+                "Equity",
+                "CashAndEquivalents",
+                "Liabilities",
                 "SharesOutstanding"
               ];
 
@@ -68,10 +68,10 @@ function useAggregatedIncomeStatement() {
               return {
                 "Company": `${Symbol} (${Symbol})`,
                 "Ownership Share": formatOwnership(quantity, sharesOutstanding),
-                "Revenue": prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
-                "Gross Profit": prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
-                "Operating Profit": prorated("OperatingProfit") !== null ? formatMoney(prorated("OperatingProfit")) : "N/A",
-                "Net Income": prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A"
+                "Assets": prorated("Assets") !== null ? formatMoney(prorated("Assets")) : "N/A",
+                "Equity": prorated("Equity") !== null ? formatMoney(prorated("Equity")) : "N/A",
+                "Cash & Equivalents": prorated("CashAndEquivalents") !== null ? formatMoney(prorated("CashAndEquivalents")) : "N/A",
+                "Liabilities": prorated("Liabilities") !== null ? formatMoney(prorated("Liabilities")) : "N/A"
               };
             } catch (err) {
               console.error(`Error loading financials for ${Symbol}:`, err);
@@ -85,16 +85,16 @@ function useAggregatedIncomeStatement() {
           rows: rows.filter(Boolean)
         });
       } catch (error) {
-        console.error("Failed to load aggregated income statement:", error);
+        console.error("Failed to load aggregated financials:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    loadAggregatedIncomeStatement();
+    loadAggregatedFinancials();
   }, [portfolioHoldings]);
 
   return { loading, aggregatedData };
 }
 
-export default useAggregatedIncomeStatement;
+export default useAggregatedFinancials;

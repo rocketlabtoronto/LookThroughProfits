@@ -1,5 +1,22 @@
 import React from "react";
 
+function getTotals(rows, columns) {
+  const totals = {};
+  columns.forEach(col => {
+    if (col.name === "Company" || col.name === "Ownership Share") return;
+    let sum = 0;
+    rows.forEach(row => {
+      const val = row[col.name];
+      if (typeof val === "string" && val.startsWith("$")) {
+        const num = parseFloat(val.replace(/[$,]/g, ""));
+        if (!isNaN(num)) sum += num;
+      }
+    });
+    totals[col.name] = "$" + sum.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  });
+  return totals;
+}
+
 function ProRataTable({ loading, data }) {
   if (loading) {
     return <p>Loading...</p>;
@@ -8,7 +25,7 @@ function ProRataTable({ loading, data }) {
   if (!data || !data.columns || !data.rows) {
     return <p>No financial data available.</p>;
   }
-
+  const totals = getTotals(data.rows, data.columns);
   return (
     <div style={{ padding: "1rem" }}>
       <table border="1" cellPadding="6" style={{ borderCollapse: "collapse", width: "100%" }}>
@@ -29,6 +46,13 @@ function ProRataTable({ loading, data }) {
               ))}
             </tr>
           ))}
+          <tr>
+            <td><strong>Total</strong></td>
+            <td></td>
+            {data.columns.slice(2).map(col => (
+              <td key={col.name}><strong>{totals[col.name]}</strong></td>
+            ))}
+          </tr>
         </tbody>
       </table>
     </div>
