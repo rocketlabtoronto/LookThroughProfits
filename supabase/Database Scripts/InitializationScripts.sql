@@ -63,7 +63,7 @@ EXECUTE FUNCTION handle_new_user();
 
 CREATE TABLE webhook_errors (
   id SERIAL PRIMARY KEY,
-  event_type TEXT NOT NULL,
+  event_type TEXT NOT NULL,  
   email TEXT,
   timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   error_message TEXT NOT NULL,
