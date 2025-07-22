@@ -31,13 +31,12 @@ import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
 
-import useAppStore from 'store';
-
+import useAppStore from "store";
 
 function Billing() {
   const userSession = useAppStore((state) => state.session);
-  const monthlyPriceId = 'price_1RmkNY2LzMkIzpdDw5MeMEfD';
-  const yearlyPriceId = 'price_1Rml7V2LzMkIzpdDdynGsUOE';
+  const monthlyPriceId = "price_1RmkNY2LzMkIzpdDw5MeMEfD";
+  const yearlyPriceId = "price_1Rml7V2LzMkIzpdDdynGsUOE";
 
   return (
     <BaseLayout stickyNavbar>
