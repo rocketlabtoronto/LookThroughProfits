@@ -35,6 +35,7 @@ import BalanceSheet from "layouts/balanceSheet/BalanceSheet";
 import Billing from "layouts/billing";
 import IncomeStatementPage from "layouts/incomeStatement/IncomeStatementPage";
 import SetPassword from "layouts/setPassword/setPassword";
+import SendPasswordReset from "layouts/sendPasswordReset/sendPasswordReset";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -83,6 +84,14 @@ const routes = [
       <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-lock-circle-open" />
     ),
     component: <SetPassword />,
+  },
+  {
+    type: "route",
+    name: "Send Password Reset",
+    key: "sendPasswordReset",
+    route: "/send-password-reset",
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-email-83" />,
+    component: <SendPasswordReset />,
   },
 ];
 

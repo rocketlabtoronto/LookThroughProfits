@@ -34,61 +34,67 @@ const logWebhookError = async (eventType, email, step, errorMsg) =>
 
 serve(async (req) => {
   const { email } = await req.json();
-
-  // Generate token
+  if (!email) return new Response(JSON.stringify({ error: "Missing email" }), { status: 400 });
   const token = uuidv4();
-  const expires_at = new Date(Date.now() + 1000 * 60 * 30).toISOString(); // 30 mins, ISO string for timestamptz
-  // Store token using REST API
-
-  // Log every invocation of this function, including token and expires_at
+  const expires_at = new Date(Date.now() + 1000 * 60 * 30).toISOString();
   await logWebhookError(
-    "send-password_setup_link success",
-    email || "",
+    "send-password_setup_link",
+    email,
     0,
-    `send-password_setup_link called. email: ${email}, token: ${token}, expires_at: ${expires_at}`
+    `called. email: ${email}, token: ${token}, expires_at: ${expires_at}`
   );
-  if (!email) {
-    return new Response(
-      JSON.stringify({
-        error: "Missing email",
-      }),
-      {
-        status: 400,
-      }
-    );
-  }
-
-  const headers = {
-    apikey: SERVICE_ROLE_KEY,
-    Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-    "Content-Type": "application/json",
-  };
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/password_reset_tokens`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        email: email,
-        token: token,
-        expires_at: expires_at,
-      }),
-    });
-    const responseText = await res.text();
-    await logWebhookError(
-      "send-password_setup_link Insert Response",
-      email,
-      0,
-      `Status: ${res.status}, Body: ${responseText}`
+    const headers = {
+      apikey: SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+    };
+    // Check if email exists
+    const checkRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/password_reset_tokens?email=eq.${encodeURIComponent(email)}`,
+      { method: "GET", headers }
     );
-    if (!res.ok) throw new Error(responseText);
+    const exists =
+      checkRes.ok &&
+      Array.isArray(await checkRes.clone().json()) &&
+      (await checkRes.clone().json()).length > 0;
+    let res, resText;
+    if (exists) {
+      // Update
+      res = await fetch(
+        `${SUPABASE_URL}/rest/v1/password_reset_tokens?email=eq.${encodeURIComponent(email)}`,
+        { method: "PATCH", headers, body: JSON.stringify({ token, expires_at }) }
+      );
+      resText = await res.text();
+      await logWebhookError(
+        "send-password_setup_link Update",
+        email,
+        0,
+        `Status: ${res.status}, Body: ${resText}`
+      );
+    } else {
+      // Insert
+      res = await fetch(`${SUPABASE_URL}/rest/v1/password_reset_tokens`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ email, token, expires_at }),
+      });
+      resText = await res.text();
+      await logWebhookError(
+        "send-password_setup_link Insert",
+        email,
+        0,
+        `Status: ${res.status}, Body: ${resText}`
+      );
+    }
+    if (!res.ok) throw new Error(resText);
     return new Response(`https://www.lookthroughprofits.com/set-password?token=${token}`, {
       headers: { "Content-Type": "text/plain" },
     });
-  } catch (_) {
-    await logWebhookError("send-password_setup_link Error", email, 0, _.message);
+  } catch (err) {
+    await logWebhookError("send-password_setup_link Error", email, 0, err.message);
     return new Response(JSON.stringify({ error: "Could not create password reset token" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
     });
   }
 });
