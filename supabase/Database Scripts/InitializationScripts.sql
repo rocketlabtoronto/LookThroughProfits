@@ -8,6 +8,7 @@ CREATE TABLE users (
   stripe_client_id TEXT,
   is_subscribed BOOLEAN DEFAULT false,
   subscription_interval TEXT CHECK (subscription_interval IN ('month', 'year')),
+  password_hash TEXT,
   last_payment_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT now()
 );

@@ -2,14 +2,10 @@
 =========================================================
 * Argon Dashboard 2 MUI - v3.0.1
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/argon-dashboard-material-ui
 * Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
 Coded by www.creative-tim.com
-
  =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
@@ -38,6 +34,7 @@ import BrokeragesAndAccounts from "layouts/brokeragesAndAccounts";
 import BalanceSheet from "layouts/balanceSheet/BalanceSheet";
 import Billing from "layouts/billing";
 import IncomeStatementPage from "layouts/incomeStatement/IncomeStatementPage";
+import SetPassword from "layouts/setPassword/setPassword";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -49,7 +46,7 @@ const routes = [
     key: "dashboard",
     route: "/brokeragesAndAccounts",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-tv-2" />,
-    component: <BrokeragesAndAccounts/>,
+    component: <BrokeragesAndAccounts />,
   },
   {
     type: "route",
@@ -66,9 +63,7 @@ const routes = [
     name: "Income Statement",
     key: "incomeStatement",
     route: "/incomeStatement",
-    icon: (
-      <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-money-coins" />
-    ),
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-money-coins" />,
     component: <IncomeStatementPage />,
   },
   {
@@ -78,7 +73,17 @@ const routes = [
     route: "/billing",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-credit-card" />,
     component: <Billing />,
-  }
+  },
+  {
+    type: "route",
+    name: "Set Password",
+    key: "setPassword",
+    route: "/set-password",
+    icon: (
+      <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-lock-circle-open" />
+    ),
+    component: <SetPassword />,
+  },
 ];
 
 export default routes;

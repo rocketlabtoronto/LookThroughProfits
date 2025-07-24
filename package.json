@@ -27,6 +27,7 @@
     "ag-grid-community": "^34.0.2",
     "ag-grid-react": "^34.0.2",
     "ajv": "^8.17.1",
+    "bcryptjs": "^3.0.2",
     "chart.js": "3.9.1",
     "chroma-js": "2.4.2",
     "papaparse": "^5.5.3",
@@ -75,13 +76,16 @@
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "eslint": "8.40.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
-    "prettier": "2.8.8"
+    "prettier": "2.8.8",
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "svgo": "3.0.2"

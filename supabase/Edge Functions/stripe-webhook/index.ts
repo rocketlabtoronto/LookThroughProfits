@@ -91,7 +91,37 @@ const updateSubscription = async (userId, interval, phone) => {
 const sendEmail = async (to, interval) => {
   const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
   await logWebhookError("sendEmail - RESEND_API_KEY", to, 3, "RESEND_API_KEY used");
-  const activationUrl = `https://lookthroughprofits.com/activate?email=${encodeURIComponent(to)}`;
+
+  // Call the send-password_setup_link edge function to get the password setup link
+  let activationUrl = "";
+  try {
+    const resp = await fetch(
+      `https://ioggynmosufvlozhlhta.supabase.co/functions/v1/send_password_setup_link`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+          apikey: SERVICE_ROLE_KEY,
+        },
+        body: JSON.stringify({ email: to }),
+      }
+    );
+    if (!resp.ok) {
+      throw new Error(`send_password_setup_link failed: ${resp.status}`);
+    }
+    activationUrl = await resp.text();
+    if (!activationUrl) throw new Error("No activation link returned");
+  } catch (err) {
+    await logWebhookError(
+      "sendEmail Error:",
+      to,
+      0,
+      `Failed to get activation link: ${err.message}`
+    );
+    throw new Error(`Failed to get activation link: ${err.message}`);
+  }
+
   try {
     const result = await resend.emails.send({
       from: "howard@lookthroughprofits.com",
@@ -151,29 +181,30 @@ const sendEmail = async (to, interval) => {
             <h1>Welcome to LookThroughProfits!</h1>
             <p>Hi there,</p>
             <p>
-              We're thrilled to have you onboard! You've successfully signed up for the <strong>{{interval}}</strong> subscription.
+              We're thrilled to have you onboard! You've successfully signed up for the <strong>${interval}</strong> subscription.
             </p>
             <p>
               To get started, please confirm and activate your subscription using the link below:
             </p>
             <p>
-              <a class="button" href="{{activationUrl}}" target="_blank">Activate My Subscription</a>
+              <a class="button" href="${activationUrl}" target="_blank">Activate My Subscription</a>
             </p>
             <p>
               If you ever have questions or just want to say hello, don’t hesitate to reach out. We’re building this with you in mind—and we're excited to help you see your investments more clearly.
             </p>
             <p>
-              Warm regards,<br />
-              <strong>Howard Lin</strong><br />
-              Founder, LookThroughProfits
+              Warm regards,<br><br>
+              <strong>Howard Lin</strong><br/>
+              Founder
             </p>
             <div class="footer">
-              You're receiving this email because you signed up for LookThroughProfits.<br />
+              You're receiving this email because you signed up for LookThroughProfits.<br>
               If this wasn’t you, please ignore this email.
             </div>
           </div>
         </body>
-      </html>`,
+      </html>
+      `,
     });
     // Log all enumerable fields of result for debugging
     let resultLog;
