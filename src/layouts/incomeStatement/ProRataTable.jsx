@@ -1,64 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from "@mui/material";
-import ArgonTypography from "components/ArgonTypography";
-
-function getTotals(rows, columns) {
-  const totals = {};
-  columns.forEach(col => {
-    if (col.name === "Company" || col.name === "Ownership Share") return;
-    let sum = 0;
-    rows.forEach(row => {
-      const val = row[col.name];
-      if (typeof val === "string" && val.startsWith("$")) {
-        const num = parseFloat(val.replace(/[$,]/g, ""));
-        if (!isNaN(num)) sum += num;
-      }
-    });
-    totals[col.name] = "$" + sum.toLocaleString("en-US", { maximumFractionDigits: 0 });
-  });
-  return totals;
-}
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 function ProRataTable({ loading, data }) {
-  if (loading) {
-    return <div className="text-center my-3">Loading...</div>;
-  }
-  if (!data || !data.columns || !data.rows) {
-    return <div className="text-center my-3">No financial data available.</div>;
-  }
-  const totals = getTotals(data.rows, data.columns);
+  if (loading) return <p>Loading...</p>;
+  if (!data || !data.columns || !data.rows) return <p>No financial data available.</p>;
+
+  const columnDefs = data.columns.map((col) => ({
+    headerName: col.name,
+    field: col.name,
+    sortable: true,
+    filter: true,
+    resizable: true,
+  }));
+  const rowData = data.rows;
+
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered table-hover">
-        <thead className="thead-light">
-          <tr>
-            {data.columns.map((col, idx) => (
-              <th key={idx} className={col.align === "right" ? "text-end" : "text-start"}>
-                {col.name}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.rows.map((row, rIdx) => (
-            <tr key={rIdx}>
-              {data.columns.map((col, cIdx) => (
-                <td key={cIdx} className={col.align === "right" ? "text-end" : "text-start"}>
-                  {row[col.name] || "—"}
-                </td>
-              ))}
-            </tr>
-          ))}
-          <tr>
-            <td><strong>Total</strong></td>
-            <td></td>
-            {data.columns.slice(2).map(col => (
-              <td key={col.name}><strong>{totals[col.name]}</strong></td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
+    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+      <AgGridReact
+        rowData={rowData}
+        columnDefs={columnDefs}
+        pagination={true}
+        paginationPageSize={10}
+      />
     </div>
   );
 }
@@ -69,11 +36,11 @@ ProRataTable.propTypes = {
     columns: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        align: PropTypes.string
+        align: PropTypes.string,
       })
-    ),
-    rows: PropTypes.arrayOf(PropTypes.object)
-  })
+    ).isRequired,
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
 };
 
 export default ProRataTable;
