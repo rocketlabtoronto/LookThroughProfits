@@ -44,12 +44,31 @@ serve(async (req) => {
     `called. email: ${email}, token: ${token}, expires_at: ${expires_at}`
   );
   try {
+    // Check if the email exists in the public.users table and if not then throw an error
     const headers = {
       apikey: SERVICE_ROLE_KEY,
       Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
       "Content-Type": "application/json",
     };
-    // Check if email exists
+    // Check if email exists in public.users
+    const userRes = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${email}`, {
+      method: "GET",
+      headers,
+    });
+    const userArr = userRes.ok ? await userRes.clone().json() : null;
+    if (!userArr || !Array.isArray(userArr) || userArr.length === 0) {
+      await logWebhookError(
+        "send-password_setup_link UserNotFound",
+        email,
+        0,
+        `No user found for email: ${email}`
+      );
+      return new Response(JSON.stringify({ error: "No user found for this email" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    // Check if password reset token already exists
     const checkRes = await fetch(
       `${SUPABASE_URL}/rest/v1/password_reset_tokens?email=eq.${encodeURIComponent(email)}`,
       { method: "GET", headers }

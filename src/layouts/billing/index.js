@@ -30,7 +30,6 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
-
 import useAppStore from "store";
 
 function Billing() {
@@ -39,29 +38,11 @@ function Billing() {
   const yearlyPriceId = "price_1Rml7V2LzMkIzpdDdynGsUOE";
 
   return (
-    <BaseLayout stickyNavbar>
-      <ArgonBox mt={4}>
-        <ArgonBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={12}>
-              <BillingInformation
-                monthlyPriceId={monthlyPriceId}
-                yearlyPriceId={yearlyPriceId}
-                userSession={userSession}
-              />
-            </Grid>
-          </Grid>
-        </ArgonBox>
-
-        <ArgonBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Invoices />
-            </Grid>
-          </Grid>
-        </ArgonBox>
-      </ArgonBox>
-    </BaseLayout>
+    <BillingInformation
+      monthlyPriceId={monthlyPriceId}
+      yearlyPriceId={yearlyPriceId}
+      userSession={userSession}
+    />
   );
 }
 

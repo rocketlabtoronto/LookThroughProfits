@@ -8,7 +8,7 @@ const columns = [
   { name: "Assets", align: "right" },
   { name: "Equity", align: "right" },
   { name: "Cash & Equivalents", align: "right" },
-  { name: "Liabilities", align: "right" }
+  { name: "Liabilities", align: "right" },
 ];
 
 function useAggregatedFinancials() {
@@ -33,14 +33,15 @@ function useAggregatedFinancials() {
                 "Equity",
                 "CashAndEquivalents",
                 "Liabilities",
-                "SharesOutstanding"
+                "SharesOutstanding",
               ];
 
               const tagMap = {};
               for (const row of financials) {
                 const { tag, value, fy_end_date } = row;
                 if (!requiredTags.includes(tag) || value == null) continue;
-                const isNewer = !tagMap[tag] || new Date(fy_end_date) > new Date(tagMap[tag].fy_end_date);
+                const isNewer =
+                  !tagMap[tag] || new Date(fy_end_date) > new Date(tagMap[tag].fy_end_date);
                 if (isNewer) tagMap[tag] = row;
               }
 
@@ -66,12 +67,16 @@ function useAggregatedFinancials() {
               };
 
               return {
-                "Company": `${Symbol} (${Symbol})`,
+                Company: `${Symbol} (${Symbol})`,
                 "Ownership Share": formatOwnership(quantity, sharesOutstanding),
-                "Assets": prorated("Assets") !== null ? formatMoney(prorated("Assets")) : "N/A",
-                "Equity": prorated("Equity") !== null ? formatMoney(prorated("Equity")) : "N/A",
-                "Cash & Equivalents": prorated("CashAndEquivalents") !== null ? formatMoney(prorated("CashAndEquivalents")) : "N/A",
-                "Liabilities": prorated("Liabilities") !== null ? formatMoney(prorated("Liabilities")) : "N/A"
+                Assets: prorated("Assets") !== null ? formatMoney(prorated("Assets")) : "N/A",
+                Equity: prorated("Equity") !== null ? formatMoney(prorated("Equity")) : "N/A",
+                "Cash & Equivalents":
+                  prorated("CashAndEquivalents") !== null
+                    ? formatMoney(prorated("CashAndEquivalents"))
+                    : "N/A",
+                Liabilities:
+                  prorated("Liabilities") !== null ? formatMoney(prorated("Liabilities")) : "N/A",
               };
             } catch (err) {
               console.error(`Error loading financials for ${Symbol}:`, err);
@@ -82,7 +87,7 @@ function useAggregatedFinancials() {
 
         setAggregatedData({
           columns,
-          rows: rows.filter(Boolean)
+          rows: rows.filter(Boolean),
         });
       } catch (error) {
         console.error("Failed to load aggregated financials:", error);
