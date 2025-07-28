@@ -36,9 +36,11 @@ import Billing from "layouts/billing";
 import IncomeStatementPage from "layouts/incomeStatement/IncomeStatementPage";
 import SetPassword from "layouts/setPassword/setPassword";
 import SendPasswordReset from "layouts/sendPasswordReset/sendPasswordReset";
+import Login from "layouts/login/login";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
+import RequireAuth from "components/RequireAuth";
 
 const routes = [
   {
@@ -47,7 +49,11 @@ const routes = [
     key: "dashboard",
     route: "/brokeragesAndAccounts",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-tv-2" />,
-    component: <BrokeragesAndAccounts />,
+    component: (
+      <RequireAuth>
+        <BrokeragesAndAccounts />
+      </RequireAuth>
+    ),
   },
   {
     type: "route",
@@ -57,7 +63,11 @@ const routes = [
     icon: (
       <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-calendar-grid-58" />
     ),
-    component: <BalanceSheet />,
+    component: (
+      <RequireAuth>
+        <BalanceSheet />
+      </RequireAuth>
+    ),
   },
   {
     type: "route",
@@ -65,7 +75,11 @@ const routes = [
     key: "incomeStatement",
     route: "/incomeStatement",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-money-coins" />,
-    component: <IncomeStatementPage />,
+    component: (
+      <RequireAuth>
+        <IncomeStatementPage />
+      </RequireAuth>
+    ),
   },
   {
     type: "route",
@@ -73,7 +87,7 @@ const routes = [
     key: "billing",
     route: "/billing",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-credit-card" />,
-    component: <Billing />,
+    component: <Billing />, // Billing does NOT require auth
   },
   {
     type: "route",
@@ -84,6 +98,14 @@ const routes = [
       <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-lock-circle-open" />
     ),
     component: <SetPassword />,
+  },
+  {
+    type: "route",
+    name: "Login",
+    key: "login",
+    route: "/login",
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-key-25" />,
+    component: <Login />,
   },
   {
     type: "route",
