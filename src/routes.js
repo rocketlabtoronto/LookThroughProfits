@@ -55,6 +55,7 @@ const routes = [
     route: "/billing",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-credit-card" />,
     component: <Billing />, // Billing does NOT require auth
+    hidden: true,
   },
   {
     type: "route",
@@ -65,6 +66,7 @@ const routes = [
       <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-lock-circle-open" />
     ),
     component: <SetPassword />,
+    hidden: true,
   },
   {
     type: "route",
@@ -73,6 +75,7 @@ const routes = [
     route: "/login",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-key-25" />,
     component: <Login />,
+    hidden: true,
   },
   {
     type: "route",
@@ -81,6 +84,7 @@ const routes = [
     route: "/send-password-reset",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-email-83" />,
     component: <SendPasswordReset />,
+    hidden: true,
   },
 ];
 
