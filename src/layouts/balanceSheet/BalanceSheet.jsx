@@ -17,13 +17,25 @@ function BalanceSheet() {
     <DashboardLayout>
       <DashboardNavbar />
       <ArgonBox py={3}>
-        <Card>
-          <ArgonTypography variant="h4" fontWeight="bold" gutterBottom>
-            Balance Sheet
-          </ArgonTypography>
-          <FinancialExplanation />
-          <ProRataTable loading={loading} data={aggregatedData} />
-        </Card>
+        <ArgonBox display="flex" justifyContent="center">
+          <Card
+            sx={{
+              p: 3,
+              background: "#fff",
+              overflow: "visible",
+              borderRadius: 3,
+              boxShadow: 3,
+              maxWidth: 1200,
+              width: "100%",
+            }}
+          >
+            <ArgonTypography variant="h4" fontWeight="bold" gutterBottom>
+              Balance Sheet
+            </ArgonTypography>
+            <FinancialExplanation />
+            <ProRataTable loading={loading} data={aggregatedData} />
+          </Card>
+        </ArgonBox>
       </ArgonBox>
       <Footer />
     </DashboardLayout>

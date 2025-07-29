@@ -1,50 +1,48 @@
-
 import React from "react";
-import { Card, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from "@mui/material";
+import {
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableHead,
+} from "@mui/material";
 import ArgonTypography from "components/ArgonTypography";
-
-const incomeStatementData = [
-  { category: "Revenue", amount: 120000 },
-  { category: "Cost of Goods Sold (COGS)", amount: 45000 },
-  { category: "Operating Expenses", amount: 30000 },
-];
-
-const netIncome =
-  incomeStatementData[0].amount -
-  incomeStatementData[1].amount -
-  incomeStatementData[2].amount;
+import ArgonBox from "components/ArgonBox";
+import FinancialExplanation from "../balanceSheet/FinancialExplanation";
+import ProRataTable from "../balanceSheet/ProRataTable";
+import useAggregatedFinancials from "../balanceSheet/useAggregatedFinancials";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Footer from "examples/Footer";
 
 function IncomeStatement() {
+  const { loading, aggregatedData } = useAggregatedFinancials();
   return (
-    <TableContainer component={Card} sx={{ mb: 3 }}>
-      <ArgonTypography variant="h6" sx={{ p: 2 }}>
-        Income Statement
-      </ArgonTypography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Category</TableCell>
-            <TableCell align="right">Amount ($)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {incomeStatementData.map((row) => (
-            <TableRow key={row.category}>
-              <TableCell>{row.category}</TableCell>
-              <TableCell align="right">{row.amount.toLocaleString()}</TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
-            <TableCell>
-              <strong>Net Income</strong>
-            </TableCell>
-            <TableCell align="right">
-              <strong>{netIncome.toLocaleString()}</strong>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <DashboardLayout>
+      <DashboardNavbar />
+      <ArgonBox py={3} px={2}>
+        <Card
+          sx={{
+            p: 3,
+            background: "#fff",
+            overflow: "visible",
+            borderRadius: 3,
+            boxShadow: 3,
+            maxWidth: 1200,
+            mx: "auto",
+          }}
+        >
+          <ArgonTypography variant="h4" fontWeight="bold" gutterBottom>
+            Income Statement
+          </ArgonTypography>
+          <FinancialExplanation />
+          <ProRataTable loading={loading} data={aggregatedData} />
+        </Card>
+      </ArgonBox>
+      <Footer />
+    </DashboardLayout>
   );
 }
 
