@@ -22,7 +22,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import AddBrokerageDialog from "./AddBrokerageDialog";  // adjust the path as needed
+import AddBrokerageDialog from "./AddBrokerageDialog"; // adjust the path as needed
 
 export default function BrokeragesAndAccounts() {
   const [brokerages, setBrokerages] = useState(brokeragesData);
@@ -32,22 +32,22 @@ export default function BrokeragesAndAccounts() {
   const handleClose = () => setOpen(false);
 
   const toggleInclude = (brokerageId, accountId) => {
-    setBrokerages(prev =>
-      prev.map(b =>
+    setBrokerages((prev) =>
+      prev.map((b) =>
         b.id === brokerageId
           ? {
               ...b,
-              accounts: b.accounts.map(a =>
+              accounts: b.accounts.map((a) =>
                 a.id === accountId ? { ...a, included: !a.included } : a
-              )
+              ),
             }
           : b
       )
     );
   };
 
-  const computeSummary = accounts => {
-    const linked = accounts.filter(a => a.included);
+  const computeSummary = (accounts) => {
+    const linked = accounts.filter((a) => a.included);
     const linkedCount = linked.length;
     const totalCount = accounts.length;
     const linkedBalance = linked.reduce((sum, a) => sum + a.balance, 0);
@@ -56,9 +56,9 @@ export default function BrokeragesAndAccounts() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      <DashboardNavbar />
       <ArgonBox py={3}>
-        {brokerages.map(brokerage => {
+        {brokerages.map((brokerage) => {
           const { linkedCount, totalCount, linkedBalance } = computeSummary(brokerage.accounts);
           return (
             <Accordion key={brokerage.id}>
@@ -80,7 +80,7 @@ export default function BrokeragesAndAccounts() {
               </AccordionSummary>
               <AccordionDetails>
                 <List>
-                  {brokerage.accounts.map(account => (
+                  {brokerage.accounts.map((account) => (
                     <ListItem key={account.id} divider>
                       <Checkbox
                         checked={account.included}
@@ -102,9 +102,25 @@ export default function BrokeragesAndAccounts() {
             </Accordion>
           );
         })}
-        <Box mt={2}>
-          <Button variant="contained" color="primary" onClick={handleOpen}>
-            + Add Brokerage
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <Button
+            variant="outlined"
+            onClick={handleOpen}
+            sx={{
+              backgroundColor: "#fff",
+              color: "#000",
+              borderColor: "#000",
+              fontWeight: 500,
+              fontSize: 16,
+              "&:hover": {
+                backgroundColor: "#f5f5f5",
+                borderColor: "#000",
+                color: "#000",
+              },
+              minWidth: 200,
+            }}
+          >
+            Connect to Brokerage
           </Button>
         </Box>
       </ArgonBox>

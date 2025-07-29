@@ -8,17 +8,18 @@ import {
   TableRow,
   TableHead,
 } from "@mui/material";
+
 import ArgonTypography from "components/ArgonTypography";
 import ArgonBox from "components/ArgonBox";
 import FinancialExplanation from "../balanceSheet/FinancialExplanation";
 import ProRataTable from "../balanceSheet/ProRataTable";
-import useAggregatedFinancials from "../balanceSheet/useAggregatedFinancials";
+import useAggregatedIncomeStatement from "../incomeStatement/useAggregatedIncomeStatement";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 function IncomeStatement() {
-  const { loading, aggregatedData } = useAggregatedFinancials();
+  const { loading, aggregatedData } = useAggregatedIncomeStatement();
   return (
     <DashboardLayout>
       <DashboardNavbar />
