@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 import Sidenav from "examples/Sidenav";
 import theme from "assets/theme";
 import themeDark from "assets/theme-dark";
@@ -55,18 +56,20 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
-        <Sidenav
-          color={sidenavColor}
-          brand={darkSidenav || darkMode ? brand : brandDark}
-          brandName=""
-          routes={routes}
-        />
-      )}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+      <Box sx={{ minHeight: "100vh", background: "#27ae60" }}>
+        {layout === "dashboard" && (
+          <Sidenav
+            color={sidenavColor}
+            brand={darkSidenav || darkMode ? brand : brandDark}
+            brandName=""
+            routes={routes}
+          />
+        )}
+        <Routes>
+          {getRoutes(routes)}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      </Box>
     </ThemeProvider>
   );
 }

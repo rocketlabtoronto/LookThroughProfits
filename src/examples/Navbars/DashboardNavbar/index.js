@@ -130,9 +130,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
   return (
     <AppBar
       position={absolute ? "absolute" : navbarType}
-      color={light ? "inherit" : "primary"}
+      color="inherit"
       elevation={0}
-      sx={{ zIndex: 1201 }}
+      sx={{ zIndex: 1201, background: "#27ae60 !important" }}
     >
       <Toolbar
         sx={{
@@ -201,24 +201,24 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   >
                     <defs>
                       <radialGradient id="faceGradient" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#f5fafd" />
-                        <stop offset="60%" stopColor="#90caf9" />
-                        <stop offset="100%" stopColor="#1976d2" />
+                        <stop offset="0%" stopColor="#eafaf1" />
+                        <stop offset="60%" stopColor="#81c784" />
+                        <stop offset="100%" stopColor="#27ae60" />
                       </radialGradient>
                       <linearGradient id="bodyGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#b3e5fc" />
-                        <stop offset="100%" stopColor="#1976d2" />
+                        <stop offset="0%" stopColor="#a5d6a7" />
+                        <stop offset="100%" stopColor="#27ae60" />
                       </linearGradient>
                       <radialGradient id="shine" cx="60%" cy="40%" r="40%">
                         <stop offset="0%" stopColor="#fff" stopOpacity="0.8" />
-                        <stop offset="100%" stopColor="#1976d2" stopOpacity="0" />
+                        <stop offset="100%" stopColor="#27ae60" stopOpacity="0" />
                       </radialGradient>
                       <linearGradient id="shadow" x1="0" y1="1" x2="0" y2="0">
-                        <stop offset="0%" stopColor="#1976d2" stopOpacity="0.2" />
+                        <stop offset="0%" stopColor="#27ae60" stopOpacity="0.2" />
                         <stop offset="100%" stopColor="#fff" stopOpacity="0" />
                       </linearGradient>
                     </defs>
-                    <circle cx="16" cy="16" r="16" fill="#e3eafc" />
+                    <circle cx="16" cy="16" r="16" fill="#eafaf1" />
                     <ellipse cx="16" cy="12" rx="6.5" ry="6.5" fill="url(#faceGradient)" />
                     <ellipse cx="16" cy="22" rx="9.5" ry="7" fill="url(#bodyGradient)" />
                     <ellipse cx="16" cy="12" rx="6.5" ry="6.5" fill="url(#shine)" />
@@ -230,7 +230,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                       rx="6.5"
                       ry="6.5"
                       fill="none"
-                      stroke="#90caf9"
+                      stroke="#81c784"
                       strokeWidth="1.5"
                     />
                   </svg>
