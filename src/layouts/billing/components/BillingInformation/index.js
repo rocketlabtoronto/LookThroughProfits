@@ -1,20 +1,35 @@
 import React, { useEffect } from "react";
 
 export default function BillingSection() {
+
   useEffect(() => {
     // Dynamically add Stripe Pricing Table script
     const script = document.createElement("script");
     script.src = "https://js.stripe.com/v3/pricing-table.js";
     script.async = true;
     document.body.appendChild(script);
+
+    // Inject custom CSS for Stripe Pricing Table width
+    const style = document.createElement("style");
+    style.innerHTML = `
+      stripe-pricing-table .PricingTableSelector__Select,
+      stripe-pricing-table .PricingTableSelector__Button {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+    `;
+    document.head.appendChild(style);
+
     return () => {
       document.body.removeChild(script);
+      document.head.removeChild(style);
     };
   }, []);
 
   return (
     <div
-      style={{ paddingTop: "90px" }}
       dangerouslySetInnerHTML={{
         __html: `<stripe-pricing-table pricing-table-id="prctbl_1RmqJv2LzMkIzpdDWLDVxpFo" publishable-key="pk_test_z0VhfWM9rkUycPiMvzQXojLv"></stripe-pricing-table>`,
       }}

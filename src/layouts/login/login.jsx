@@ -56,7 +56,7 @@ function Login() {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        background: "#f8f9fa",
+        background: "#27ae60",
       }}
     >
       <div style={{ marginBottom: 24, textAlign: "center" }}>
