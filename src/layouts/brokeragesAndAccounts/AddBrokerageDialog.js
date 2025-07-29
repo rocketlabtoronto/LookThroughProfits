@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ConsentModal from "./ConsentModal";
-import { brokerages } from "./brokerageData";
+import { brokerages, isIntegrationAvailable } from "./brokerageData";
+import ManualUploadInstructionsModal from "./ManualUploadInstructionsModal";
+import SnapTradeConnectModal from "./SnapTradeConnectModal";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,19 +20,41 @@ export default function AddBrokerageDialog({ open, onClose }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [parsedData, setParsedData] = useState([]);
   const [country, setCountry] = useState("Canada");
-
   const [consentOpen, setConsentOpen] = useState(false);
+  const [manualModalOpen, setManualModalOpen] = useState(false);
+  const [manualBrokerage, setManualBrokerage] = useState("");
+  const [snapTradeModalOpen, setSnapTradeModalOpen] = useState(false);
+  const [snapTradeBrokerage, setSnapTradeBrokerage] = useState("");
 
+  // For manual upload modal, handle file selection
+  const handleManualFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    setSelectedFile(file);
+  };
+
+  // For manual upload modal, handle upload
+  const handleManualUpload = () => {
+    if (!selectedFile) {
+      alert("Please select a file first!");
+      return;
+    }
+    // Parse and store as usual
+    parseBrokerageCsv(selectedFile, (result) => {
+      useAppStore.getState().setBrokeragesAndAccounts(result.firstTable);
+      useAppStore.getState().setAccountHoldings(result.secondTable);
+    });
+    setManualModalOpen(false);
+    setSelectedFile(null);
+    onClose();
+  };
+
+  // For SnapTrade flow
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     setSelectedFile(file);
-
     parseBrokerageCsv(file, (result) => {
-      console.log("First table: ", result.firstTable);
-      console.log("Second table: ", result.secondTable);
-      // Save data in the Zustand store
       useAppStore.getState().setBrokeragesAndAccounts(result.firstTable);
       useAppStore.getState().setAccountHoldings(result.secondTable);
     });
@@ -46,11 +70,31 @@ export default function AddBrokerageDialog({ open, onClose }) {
 
   const handleConsent = () => {
     setConsentOpen(false);
-    // Proceed with upload logic
-    console.log("Uploading file:", selectedFile);
-    console.log("Parsed data:", parsedData);
     onClose();
   };
+
+  // Handle tile click
+  const handleBrokerageTileClick = (broker) => {
+    if (broker.integration === isIntegrationAvailable.notAvailable) {
+      setManualBrokerage(broker.name);
+      setManualModalOpen(true);
+      setSelectedFile(null);
+    } else if (broker.integration === isIntegrationAvailable.snapTrade) {
+      setSnapTradeBrokerage(broker.name);
+      setSnapTradeModalOpen(true);
+    }
+  };
+
+  const handleSnapTradeConnect = () => {
+    // TODO: Implement SnapTrade connect logic here
+    setSnapTradeModalOpen(false);
+  };
+  <SnapTradeConnectModal
+    open={snapTradeModalOpen}
+    onClose={() => setSnapTradeModalOpen(false)}
+    brokerageName={snapTradeBrokerage}
+    onConnect={handleSnapTradeConnect}
+  />;
 
   return (
     <>
@@ -93,6 +137,7 @@ export default function AddBrokerageDialog({ open, onClose }) {
             {brokerages[country].map((broker) => (
               <div
                 key={broker.name}
+                onClick={() => handleBrokerageTileClick(broker)}
                 style={{
                   width: 125,
                   height: 125,
@@ -103,7 +148,19 @@ export default function AddBrokerageDialog({ open, onClose }) {
                   border: "1px solid #eee",
                   borderRadius: 8,
                   background: "#fafbfc",
+                  cursor: "pointer",
+                  boxShadow:
+                    broker.integration === isIntegrationAvailable.notAvailable
+                      ? "0 0 0 2px #f5a623"
+                      : "none",
+                  opacity: broker.integration === isIntegrationAvailable.notAvailable ? 0.85 : 1,
+                  transition: "box-shadow 0.2s, opacity 0.2s",
                 }}
+                title={
+                  broker.integration === isIntegrationAvailable.notAvailable
+                    ? "Manual upload required"
+                    : "Connect via API"
+                }
               >
                 <img
                   src={broker.logo}
@@ -116,7 +173,13 @@ export default function AddBrokerageDialog({ open, onClose }) {
               </div>
             ))}
           </div>
-          <input type="file" accept=".csv" onChange={handleFileChange} />
+          {/* Only show file input for SnapTrade brokerages (if needed) */}
+          <input
+            type="file"
+            accept=".csv"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
           {selectedFile && (
             <Typography variant="body2" sx={{ mt: 1 }}>
               Selected file: {selectedFile.name}
@@ -128,16 +191,23 @@ export default function AddBrokerageDialog({ open, onClose }) {
             </Typography>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleUpload} variant="contained" color="primary">
-            Upload
-          </Button>
-        </DialogActions>
+        {/* No Cancel or Upload buttons needed here anymore */}
       </Dialog>
+      <SnapTradeConnectModal
+        open={snapTradeModalOpen}
+        onClose={() => setSnapTradeModalOpen(false)}
+        brokerageName={snapTradeBrokerage}
+        onConnect={handleSnapTradeConnect}
+      />
       <ConsentModal open={consentOpen} onConsent={handleConsent} />
+      <ManualUploadInstructionsModal
+        open={manualModalOpen}
+        onClose={() => setManualModalOpen(false)}
+        brokerageName={manualBrokerage}
+        onFileChange={handleManualFileChange}
+        onUpload={handleManualUpload}
+        selectedFile={selectedFile}
+      />
     </>
   );
 }
