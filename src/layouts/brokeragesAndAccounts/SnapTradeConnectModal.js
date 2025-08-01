@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import { SnapTradeReact } from "snaptrade-react";
 
 import axios from "axios";
+import { setOpenConfigurator } from "context";
 
 export default function SnapTradeConnectModal({
   open,
@@ -27,7 +28,6 @@ export default function SnapTradeConnectModal({
 }) {
   const [loginLink, setLoginLink] = useState(null);
   const [localError, setLocalError] = useState(null); // Local error state for UI feedback
-
   /**
    * Handles SnapTrade registration and login link retrieval.
    * - Checks if user is registered with SnapTrade (via Edge Function).
@@ -129,8 +129,7 @@ export default function SnapTradeConnectModal({
           console.log("Running Node.js service for SnapTrade login link");
           const res = await axios.get(`${API_BASE}/users/${userId}/${userSecret}/login`);
           console.log(`SnapTrade login link: ${res.data.redirectURI}`);
-          //setLoginLink(res.data.redirectURI);
-          window.open(res.data.redirectURI, "_blank");
+          window.open(res.data.redirectURI, "_self");
         }
       } catch (err) {
         // Catch-all error handler
@@ -167,28 +166,6 @@ export default function SnapTradeConnectModal({
         <Button onClick={onClose} color="primary" disabled={loading}>
           Cancel
         </Button>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          {/* Debug: Show loginLink as clickable link if present */}
-          {loginLink && (
-            <a
-              href={loginLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "blue", wordBreak: "break-all", marginBottom: 8 }}
-            >
-              Open SnapTrade Link
-            </a>
-          )}
-          {/* SnapTradeReact button below - correct props per docs */}
-          <SnapTradeReact
-            loginLink={loginLink}
-            isOpen={open}
-            close={onClose}
-            onSuccess={onSuccess}
-            onError={onError}
-            onExit={onExit}
-          />
-        </div>
       </DialogActions>
     </Dialog>
   );

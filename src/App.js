@@ -29,14 +29,14 @@ export default function App() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+      if (session?.user) setUser(session.user);
     };
 
     getSession();
 
     // Listen for auth changes (login/logout)
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null);
+      if (session?.user) setUser(session.user);
     });
 
     return () => listener.subscription.unsubscribe();
