@@ -3,18 +3,17 @@ import Stripe from "npm:stripe";
 import { Resend } from "https://esm.sh/resend";
 // --- Config ---
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
-  apiVersion: "2023-08-16",
+  apiVersion: "2023-08-16"
 });
 const SUPABASE_URL = "https://ioggynmosufvlozhlhta.supabase.co";
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const headers = {
   apikey: SERVICE_ROLE_KEY,
   Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-  "Content-Type": "application/json",
+  "Content-Type": "application/json"
 };
 // --- Error Logging Service ---
-const logWebhookError = async (eventType, email, step, errorMsg) =>
-  fetch(`${SUPABASE_URL}/rest/v1/webhook_errors`, {
+const logWebhookError = async (eventType, email, step, errorMsg)=>fetch(`${SUPABASE_URL}/rest/v1/webhook_errors`, {
     method: "POST",
     headers,
     body: JSON.stringify({
@@ -22,14 +21,14 @@ const logWebhookError = async (eventType, email, step, errorMsg) =>
       email,
       timestamp: new Date().toISOString(),
       error_message: errorMsg,
-      step,
-    }),
+      step
+    })
   });
 // --- Step 1: Fetch User by Email ---
-const fetchUser = async (email) => {
+const fetchUser = async (email)=>{
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${email}`, {
     method: "GET",
-    headers,
+    headers
   });
   const text = await res.text();
   if (!res.ok) {
@@ -42,18 +41,18 @@ const fetchUser = async (email) => {
   }
 };
 // --- Step 2: Create User ---
-const createUser = async (email) => {
+const createUser = async (email)=>{
   const res = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
     method: "POST",
     headers: {
       apikey: SERVICE_ROLE_KEY,
       Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       email,
-      password: crypto.randomUUID(),
-    }),
+      password: crypto.randomUUID()
+    })
   });
   const text = await res.text();
   if (!res.ok) {
@@ -66,16 +65,16 @@ const createUser = async (email) => {
   }
 };
 // --- Step 3: Update User Subscription ---
-const updateSubscription = async (userId, interval, phone) => {
+const updateSubscription = async (userId, interval, phone)=>{
   const payload = {
     is_subscribed: true,
     phone: phone,
-    subscription_interval: interval,
+    subscription_interval: interval
   };
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users?id=eq.${userId}`, {
     method: "PATCH",
     headers,
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   });
   const text = await res.text();
   if (!res.ok) {
@@ -88,40 +87,32 @@ const updateSubscription = async (userId, interval, phone) => {
   }
 };
 // Send email functionality
-const sendEmail = async (to, interval) => {
+const sendEmail = async (to, interval)=>{
   const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
   await logWebhookError("sendEmail - RESEND_API_KEY", to, 3, "RESEND_API_KEY used");
-
   // Call the send-password_setup_link edge function to get the password setup link
   let activationUrl = "";
   try {
-    const resp = await fetch(
-      `https://ioggynmosufvlozhlhta.supabase.co/functions/v1/send_password_setup_link`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-          apikey: SERVICE_ROLE_KEY,
-        },
-        body: JSON.stringify({ email: to }),
-      }
-    );
+    const resp = await fetch(`https://ioggynmosufvlozhlhta.supabase.co/functions/v1/send_password_setup_link`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+        apikey: SERVICE_ROLE_KEY
+      },
+      body: JSON.stringify({
+        email: to
+      })
+    });
     if (!resp.ok) {
       throw new Error(`send_password_setup_link failed: ${resp.status}`);
     }
     activationUrl = await resp.text();
     if (!activationUrl) throw new Error("No activation link returned");
   } catch (err) {
-    await logWebhookError(
-      "sendEmail Error:",
-      to,
-      0,
-      `Failed to get activation link: ${err.message}`
-    );
+    await logWebhookError("sendEmail Error:", to, 0, `Failed to get activation link: ${err.message}`);
     throw new Error(`Failed to get activation link: ${err.message}`);
   }
-
   try {
     const result = await resend.emails.send({
       from: "howard@lookthroughprofits.com",
@@ -204,7 +195,7 @@ const sendEmail = async (to, interval) => {
           </div>
         </body>
       </html>
-      `,
+      `
     });
     // Log all enumerable fields of result for debugging
     let resultLog;
@@ -264,23 +255,19 @@ async function processSubscription(event) {
   }
 }
 // --- Entry Point ---
-serve(async (req) => {
+serve(async (req)=>{
   const sig = req.headers.get("stripe-signature");
   const body = await req.text();
   try {
-    const event = await stripe.webhooks.constructEventAsync(
-      body,
-      sig,
-      Deno.env.get("STRIPE_WEBHOOK_SECRET")
-    );
+    const event = await stripe.webhooks.constructEventAsync(body, sig, Deno.env.get("STRIPE_WEBHOOK_SECRET"));
     await processSubscription(event);
     return new Response("Webhook received", {
-      status: 200,
+      status: 200
     });
   } catch (err) {
     console.error("Webhook Error:", err);
     return new Response(`Webhook Error: ${err.message}`, {
-      status: 400,
+      status: 400
     });
   }
 });

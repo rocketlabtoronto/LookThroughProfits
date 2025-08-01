@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import supabaseService from "services/supabaseService";
-import useAppStore from "store";
+import { useAppStore } from "../../stores/store";
 
 const columns = [
   { name: "Company", align: "left" },
@@ -9,7 +9,7 @@ const columns = [
   { name: "Gross Profit", align: "right" },
   { name: "Operating Profit", align: "right" },
   { name: "Net Income", align: "right" },
-  { name: "Free Cash Flow", align: "right" }
+  { name: "Free Cash Flow", align: "right" },
 ];
 
 function useAggregatedFinancials() {
@@ -35,7 +35,7 @@ function useAggregatedFinancials() {
                 "OperatingProfit",
                 "NetIncome",
                 "FreeCashFlow",
-                "SharesOutstanding"
+                "SharesOutstanding",
               ];
 
               const tagMap = {};
@@ -70,13 +70,19 @@ function useAggregatedFinancials() {
               };
 
               return {
-                "Company": `${Symbol} (${Symbol})`,
+                Company: `${Symbol} (${Symbol})`,
                 "Ownership Share": formatOwnership(quantity, sharesOutstanding),
-                "Revenue": prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
-                "Gross Profit": prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
-                "Operating Profit": prorated("OperatingProfit") !== null ? formatMoney(prorated("OperatingProfit")) : "N/A",
-                "Net Income": prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A",
-                "Free Cash Flow": prorated("FreeCashFlow") !== null ? formatMoney(prorated("FreeCashFlow")) : "N/A"
+                Revenue: prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
+                "Gross Profit":
+                  prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
+                "Operating Profit":
+                  prorated("OperatingProfit") !== null
+                    ? formatMoney(prorated("OperatingProfit"))
+                    : "N/A",
+                "Net Income":
+                  prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A",
+                "Free Cash Flow":
+                  prorated("FreeCashFlow") !== null ? formatMoney(prorated("FreeCashFlow")) : "N/A",
               };
             } catch (err) {
               console.error(`Error loading financials for ${Symbol}:`, err);
@@ -87,7 +93,7 @@ function useAggregatedFinancials() {
 
         setAggregatedData({
           columns,
-          rows: rows.filter(Boolean)
+          rows: rows.filter(Boolean),
         });
       } catch (error) {
         console.error("Failed to load aggregated financials:", error);

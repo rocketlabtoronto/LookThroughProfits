@@ -27,6 +27,7 @@ import AddBrokerageDialog from "./AddBrokerageDialog"; // adjust the path as nee
 export default function BrokeragesAndAccounts() {
   const [brokerages, setBrokerages] = useState(brokeragesData);
   const [open, setOpen] = useState(false);
+  const [snapTradeSuccess, setSnapTradeSuccess] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -124,7 +125,20 @@ export default function BrokeragesAndAccounts() {
           </Button>
         </Box>
       </ArgonBox>
-      <AddBrokerageDialog open={open} onClose={() => setOpen(false)} />
+      <AddBrokerageDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onSnapTradeSuccess={() => {
+          setSnapTradeSuccess(true);
+          setTimeout(() => setSnapTradeSuccess(false), 4000);
+          // Optionally: trigger a refresh of accounts here
+        }}
+      />
+      {snapTradeSuccess && (
+        <Box mt={2}>
+          <Typography color="success.main">SnapTrade connection successful!</Typography>
+        </Box>
+      )}
       <Footer />
     </DashboardLayout>
   );

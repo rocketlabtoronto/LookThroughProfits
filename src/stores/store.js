@@ -4,7 +4,7 @@ const useAppStore = create((set) => ({
   brokeragesAndAccounts: [],
   accountHoldings: [],
   setBrokeragesAndAccounts: (data) => set({ brokeragesAndAccounts: data }),
-  setAccountHoldings: (holdings) => set({ accountHoldings: holdings })
+  setAccountHoldings: (holdings) => set({ accountHoldings: holdings }),
 }));
 
-export default useAppStore;
+export { useAppStore };

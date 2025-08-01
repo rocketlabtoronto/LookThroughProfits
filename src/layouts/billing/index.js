@@ -20,7 +20,7 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
-import useAppStore from "store";
+import { useAppStore } from "../../stores/store";
 
 function Billing() {
   const userSession = useAppStore((state) => state.session);

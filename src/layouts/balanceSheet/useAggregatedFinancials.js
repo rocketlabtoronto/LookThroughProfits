@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import supabaseService from "services/supabaseService";
-import useAppStore from "store";
+import { useAppStore } from "../../stores/store";
 
 const columns = [
   { name: "Company", align: "left" },

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import supabaseService from "services/supabaseService";
-import useAppStore from "store";
+import { useAppStore } from "../../stores/store";
 
 const columns = [
   { name: "Company", align: "left" },
@@ -8,7 +8,7 @@ const columns = [
   { name: "Revenue", align: "right" },
   { name: "Gross Profit", align: "right" },
   { name: "Operating Profit", align: "right" },
-  { name: "Net Income", align: "right" }
+  { name: "Net Income", align: "right" },
 ];
 
 function useAggregatedIncomeStatement() {
@@ -33,14 +33,15 @@ function useAggregatedIncomeStatement() {
                 "GrossProfit",
                 "OperatingProfit",
                 "NetIncome",
-                "SharesOutstanding"
+                "SharesOutstanding",
               ];
 
               const tagMap = {};
               for (const row of financials) {
                 const { tag, value, fy_end_date } = row;
                 if (!requiredTags.includes(tag) || value == null) continue;
-                const isNewer = !tagMap[tag] || new Date(fy_end_date) > new Date(tagMap[tag].fy_end_date);
+                const isNewer =
+                  !tagMap[tag] || new Date(fy_end_date) > new Date(tagMap[tag].fy_end_date);
                 if (isNewer) tagMap[tag] = row;
               }
 
@@ -66,12 +67,17 @@ function useAggregatedIncomeStatement() {
               };
 
               return {
-                "Company": `${Symbol} (${Symbol})`,
+                Company: `${Symbol} (${Symbol})`,
                 "Ownership Share": formatOwnership(quantity, sharesOutstanding),
-                "Revenue": prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
-                "Gross Profit": prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
-                "Operating Profit": prorated("OperatingProfit") !== null ? formatMoney(prorated("OperatingProfit")) : "N/A",
-                "Net Income": prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A"
+                Revenue: prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
+                "Gross Profit":
+                  prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
+                "Operating Profit":
+                  prorated("OperatingProfit") !== null
+                    ? formatMoney(prorated("OperatingProfit"))
+                    : "N/A",
+                "Net Income":
+                  prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A",
               };
             } catch (err) {
               console.error(`Error loading financials for ${Symbol}:`, err);
@@ -82,7 +88,7 @@ function useAggregatedIncomeStatement() {
 
         setAggregatedData({
           columns,
-          rows: rows.filter(Boolean)
+          rows: rows.filter(Boolean),
         });
       } catch (error) {
         console.error("Failed to load aggregated income statement:", error);

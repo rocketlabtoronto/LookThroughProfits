@@ -14,9 +14,9 @@ import Typography from "@mui/material/Typography";
 import Papa from "papaparse";
 import PropTypes from "prop-types";
 import { parseBrokerageCsv } from "services/parseBrokerageCsv";
-import useAppStore from "store";
+import { useAppStore } from "../../stores/store";
 
-export default function AddBrokerageDialog({ open, onClose }) {
+export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [parsedData, setParsedData] = useState([]);
   const [country, setCountry] = useState("Canada");
@@ -25,6 +25,8 @@ export default function AddBrokerageDialog({ open, onClose }) {
   const [manualBrokerage, setManualBrokerage] = useState("");
   const [snapTradeModalOpen, setSnapTradeModalOpen] = useState(false);
   const [snapTradeBrokerage, setSnapTradeBrokerage] = useState("");
+  const [snapTradeError, setSnapTradeError] = useState("");
+  const [snapTradeLoading, setSnapTradeLoading] = useState(false);
 
   // For manual upload modal, handle file selection
   const handleManualFileChange = (event) => {
@@ -85,16 +87,22 @@ export default function AddBrokerageDialog({ open, onClose }) {
     }
   };
 
-  const handleSnapTradeConnect = () => {
-    // TODO: Implement SnapTrade connect logic here
+  // SnapTradeReact SDK handles the connection, so these callbacks are passed to the modal
+  const handleSnapTradeSuccess = (authorizationId) => {
     setSnapTradeModalOpen(false);
+    setSnapTradeError("");
+    setSnapTradeLoading(false);
+    if (onSnapTradeSuccess) onSnapTradeSuccess(authorizationId);
   };
-  <SnapTradeConnectModal
-    open={snapTradeModalOpen}
-    onClose={() => setSnapTradeModalOpen(false)}
-    brokerageName={snapTradeBrokerage}
-    onConnect={handleSnapTradeConnect}
-  />;
+  const handleSnapTradeError = (error) => {
+    setSnapTradeError(error?.detail || "Failed to connect to SnapTrade.");
+    setSnapTradeLoading(false);
+  };
+  const handleSnapTradeExit = () => {
+    setSnapTradeModalOpen(false);
+    setSnapTradeLoading(false);
+  };
+  // ...existing code...
 
   return (
     <>
@@ -197,7 +205,11 @@ export default function AddBrokerageDialog({ open, onClose }) {
         open={snapTradeModalOpen}
         onClose={() => setSnapTradeModalOpen(false)}
         brokerageName={snapTradeBrokerage}
-        onConnect={handleSnapTradeConnect}
+        error={snapTradeError}
+        loading={snapTradeLoading}
+        onSuccess={handleSnapTradeSuccess}
+        onError={handleSnapTradeError}
+        onExit={handleSnapTradeExit}
       />
       <ConsentModal open={consentOpen} onConsent={handleConsent} />
       <ManualUploadInstructionsModal
@@ -215,4 +227,5 @@ export default function AddBrokerageDialog({ open, onClose }) {
 AddBrokerageDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onSnapTradeSuccess: PropTypes.func,
 };
