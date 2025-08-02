@@ -1,3 +1,4 @@
+import SnapTradeRedirect from "layouts/SnapTradeRedirect";
 import BrokeragesAndAccounts from "layouts/brokeragesAndAccounts";
 import BalanceSheet from "layouts/balanceSheet/BalanceSheet";
 import Billing from "layouts/billing";
@@ -10,6 +11,19 @@ import ArgonBox from "components/ArgonBox";
 import RequireAuth from "components/RequireAuth";
 
 const routes = [
+  {
+    type: "route",
+    name: "SnapTrade Redirect",
+    key: "snapTradeRedirect",
+    route: "/snapTradeRedirect",
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-curved-next" />,
+    component: (
+      <RequireAuth>
+        <SnapTradeRedirect />
+      </RequireAuth>
+    ),
+    hidden: true,
+  },
   {
     type: "route",
     name: "Brokerages and Accounts",

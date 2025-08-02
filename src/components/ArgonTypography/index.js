@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Argon Dashboard 2 MUI - v3.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-material-ui
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
 
@@ -41,7 +26,7 @@ const ArgonTypography = forwardRef(
           color,
           fontWeight,
           textTransform,
-          verticalAlign,  // ✅ only used by styled component
+          verticalAlign, // ✅ only used by styled component
           textGradient,
           opacity,
           darkMode,
@@ -66,14 +51,30 @@ ArgonTypography.defaultProps = {
 // PropTypes
 ArgonTypography.propTypes = {
   color: PropTypes.oneOf([
-    "inherit", "primary", "secondary", "info", "success", "warning", 
-    "error", "light", "dark", "text", "white",
+    "inherit",
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+    "text",
+    "white",
   ]),
   fontWeight: PropTypes.oneOf([false, "light", "regular", "medium", "bold"]),
   textTransform: PropTypes.oneOf(["none", "capitalize", "uppercase", "lowercase"]),
   verticalAlign: PropTypes.oneOf([
-    "unset", "baseline", "sub", "super", "text-top", 
-    "text-bottom", "middle", "top", "bottom",
+    "unset",
+    "baseline",
+    "sub",
+    "super",
+    "text-top",
+    "text-bottom",
+    "middle",
+    "top",
+    "bottom",
   ]),
   textGradient: PropTypes.bool,
   opacity: PropTypes.number,
