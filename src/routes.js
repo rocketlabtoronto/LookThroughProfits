@@ -104,7 +104,7 @@ const routes = [
   },
   {
     type: "route",
-    name: "Look Through Earnings: The Owner's Manual",
+    name: "The Owner's Manual",
     key: "look-through-earnings-manual",
     route: "/look-through-earnings-manual",
     component: <LookThroughEarningsManual />,

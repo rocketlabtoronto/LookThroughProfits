@@ -754,9 +754,11 @@ function LookThroughEarningsManual() {
             <tr style={{ borderBottom: "1px solid #e1e5e9" }}>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>0–20%</td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
-                Passive Investment
+                Passive investment
               </td>
-              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Fair value</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
+                Fair value or cost
+              </td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
                 Only dividends and price changes
               </td>
@@ -764,7 +766,7 @@ function LookThroughEarningsManual() {
             <tr style={{ borderBottom: "1px solid #e1e5e9" }}>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>20–50%</td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Associate</td>
-              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Equity</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Equity method</td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
                 Your share of net income
               </td>
@@ -773,7 +775,7 @@ function LookThroughEarningsManual() {
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>&gt;50%</td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Subsidiary</td>
               <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Consolidation</td>
-              <td style={{ padding: "12px 8px", fontSize: 1, color: "#444e5e" }}>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
                 100% of income (with NCI adjustments)
               </td>
             </tr>
