@@ -4,16 +4,16 @@ import ArgonTypography from "components/ArgonTypography";
 
 function LookThroughEarningsManual() {
   useEffect(() => {
-    // Load Google Fonts
+    // Load Google Fonts - Libre Franklin (primary) and Lora (secondary)
     const link = document.createElement("link");
     link.href =
-      "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap";
+      "https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
 
     // Apply background styling
     document.body.style.backgroundColor = "#f8f9fa";
-    document.body.style.fontFamily = "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif";
+    document.body.style.fontFamily = "'Lora'";
 
     return () => {
       document.body.style.backgroundColor = "";
@@ -25,13 +25,14 @@ function LookThroughEarningsManual() {
     backgroundColor: "#ffffff",
     boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
     borderRadius: "8px",
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+    fontFamily: "'Libre Franklin'",
     lineHeight: 1.7,
+    fontSize: 18,
     color: "#1a1a1a",
   };
 
   const headingStyle = {
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+    fontFamily: "'Lora'",
     fontWeight: 600,
     color: "#1a1a1a",
     lineHeight: 1.3,
@@ -39,7 +40,7 @@ function LookThroughEarningsManual() {
   };
 
   const bodyStyle = {
-    fontFamily: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+    fontFamily: "'Lora'",
     fontSize: 18,
     color: "#444e5e",
     lineHeight: 1.7,
@@ -57,9 +58,8 @@ function LookThroughEarningsManual() {
     padding: 24,
     margin: "24px 0",
     borderLeft: "4px solid #bfa14a",
-    fontSize: 20,
+    fontSize: 18,
     fontStyle: "italic",
-    fontWeight: 500,
     color: "#1a1a1a",
   };
 
@@ -416,10 +416,9 @@ function LookThroughEarningsManual() {
         <ArgonTypography variant="body1" style={bodyStyle}>
           Let&apos;s say you invest $10,000 in a small public company called Acme Tools. The company
           has a market cap of $1 million and earns $100,000 per year in profit, giving it a starting
-          P/E ratio of 10 (Price divided by Earnings).
-        </ArgonTypography>
-        <ArgonTypography variant="body1" style={bodyStyle}>
+          P/E ratio of 10 (Price divided by Earnings).<br></br>
           The stock price is $10/share, so there are 100,000 shares outstanding.
+          <br />
           <br />
           Your $10,000 investment buys 1,000 shares, or 1% ownership of the company.
           <br />
@@ -429,14 +428,15 @@ function LookThroughEarningsManual() {
           <br />
           You receive $250 in dividends (25% payout ratio).
           <br />
+          <br />
           The company reinvests $750 of your share back into the business to grow future earnings.
         </ArgonTypography>
         <ArgonTypography
           variant="body1"
-          style={{ ...bodyStyle, fontWeight: 600, color: "#dc2626" }}
+          style={{ ...bodyStyle, fontWeight: 600, color: "#000000ff" }}
         >
-          However, this year the stock price dropped 15%, falling from $10/share to $8.50/share.
-          Your investment is now worth $8,500.
+          However, this year the stock price dropped 15%, falling from $10/share to $8.50/share. You
+          think your investment is now worth $8,500. Is it?
         </ArgonTypography>
       </div>
 
@@ -462,11 +462,13 @@ function LookThroughEarningsManual() {
           </ArgonTypography>
           <ArgonTypography
             variant="body2"
-            style={{ fontSize: 16, color: "#7f1d1d", lineHeight: 1.6 }}
+            style={{ fontSize: 18, color: "#7f1d1d", lineHeight: 1.6 }}
           >
             &quot;Ugh, my portfolio is down 15%.&quot;
             <br />
+            <br />
             &quot;This company is losing value. I should cut my losses.&quot;
+            <br />
             <br />
             <em>Focused only on price decline, not business fundamentals.</em>
           </ArgonTypography>
@@ -493,16 +495,19 @@ function LookThroughEarningsManual() {
           </ArgonTypography>
           <ArgonTypography
             variant="body2"
-            style={{ fontSize: 16, color: "#14532d", lineHeight: 1.6 }}
+            style={{ fontSize: 18, color: "#14532d", lineHeight: 1.6 }}
           >
             &quot;I invested $10,000 and earned $1,000 this year — that&apos;s a 10% return from
             real business profits.&quot;
             <br />
+            <br />
             &quot;I received $250 in cash dividends, and $750 is still working inside the company —
             growing the value of my ownership.&quot;
             <br />
+            <br />
             &quot;The market price dropped, but the business didn&apos;t stop earning. In fact,
             it&apos;s more attractively priced now.&quot;
+            <br />
             <br />
             &quot;I can buy more of this business at a better valuation — a lower P/E ratio means I
             get more earnings per dollar invested.&quot;
@@ -545,9 +550,12 @@ function LookThroughEarningsManual() {
         <ArgonTypography variant="body1" style={bodyStyle}>
           The stock price is $20/share, with 100,000 shares outstanding.
           <br />
+          <br />
           Your $10,000 buys 500 shares, or 0.5% ownership.
           <br />
+          <br />
           YieldMax has a 100% payout ratio, meaning it pays out all its earnings as dividends.
+          <br />
           <br />
           You receive $500 in dividends (0.5% of $100,000). The stock price hasn&apos;t moved much,
           but let&apos;s look deeper.
@@ -576,11 +584,13 @@ function LookThroughEarningsManual() {
           </ArgonTypography>
           <ArgonTypography
             variant="body2"
-            style={{ fontSize: 16, color: "#7f1d1d", lineHeight: 1.6 }}
+            style={{ fontSize: 18, color: "#7f1d1d", lineHeight: 1.6 }}
           >
             &quot;Nice! I made $500 in dividends.&quot;
             <br />
+            <br />
             &quot;That&apos;s a 5% yield. I&apos;ll keep collecting.&quot;
+            <br />
             <br />
             <em>Ignores what the company is doing — or not doing — with retained capital.</em>
           </ArgonTypography>
@@ -607,13 +617,15 @@ function LookThroughEarningsManual() {
           </ArgonTypography>
           <ArgonTypography
             variant="body2"
-            style={{ fontSize: 16, color: "#14532d", lineHeight: 1.6 }}
+            style={{ fontSize: 18, color: "#14532d", lineHeight: 1.6 }}
           >
             &quot;The company paid out everything. There&apos;s no reinvestment, no R&amp;D, no
             growth.&quot;
             <br />
+            <br />
             &quot;Future earnings will likely stagnate or shrink due to inflation, competition, or
             disruption.&quot;
+            <br />
             <br />
             &quot;I may get $500 this year — but five years from now, my ownership might be worth
             less.&quot;
@@ -629,7 +641,7 @@ function LookThroughEarningsManual() {
         Look-through thinking asks:
         <ul
           style={{
-            marginTop: 16,
+            marginTop: 18,
             marginBottom: 0,
             marginLeft: 0,
             listStyle: "none",
@@ -677,6 +689,7 @@ function LookThroughEarningsManual() {
           backgroundColor: "#fafbfc",
           border: "1px solid #e1e5e9",
           borderRadius: 8,
+          fontSize: 18,
           padding: 24,
           margin: "24px 0",
         }}
@@ -684,8 +697,9 @@ function LookThroughEarningsManual() {
         <table
           style={{
             width: "100%",
+            fontSize: 18,
             borderCollapse: "collapse",
-            fontFamily: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+            fontFamily: "'Libre Franklin'",
           }}
         >
           <thead>
@@ -693,18 +707,20 @@ function LookThroughEarningsManual() {
               <th
                 style={{
                   textAlign: "left",
+                  fontSize: 18,
                   padding: "12px 8px",
                   fontWeight: 600,
                   color: "#1a1a1a",
                 }}
               >
-                Ownership %
+                Ownership
               </th>
               <th
                 style={{
                   textAlign: "left",
                   padding: "12px 8px",
                   fontWeight: 600,
+                  fontSize: 18,
                   color: "#1a1a1a",
                 }}
               >
@@ -714,6 +730,7 @@ function LookThroughEarningsManual() {
                 style={{
                   textAlign: "left",
                   padding: "12px 8px",
+                  fontSize: 18,
                   fontWeight: 600,
                   color: "#1a1a1a",
                 }}
@@ -724,6 +741,7 @@ function LookThroughEarningsManual() {
                 style={{
                   textAlign: "left",
                   padding: "12px 8px",
+                  fontSize: 18,
                   fontWeight: 600,
                   color: "#1a1a1a",
                 }}
@@ -734,24 +752,28 @@ function LookThroughEarningsManual() {
           </thead>
           <tbody>
             <tr style={{ borderBottom: "1px solid #e1e5e9" }}>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>0–20%</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Passive investment</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Fair value or cost</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>0–20%</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
+                Passive Investment
+              </td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Fair value</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
                 Only dividends and price changes
               </td>
             </tr>
             <tr style={{ borderBottom: "1px solid #e1e5e9" }}>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>20–50%</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Associate</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Equity method</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Your share of net income</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>20–50%</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Associate</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Equity</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>
+                Your share of net income
+              </td>
             </tr>
             <tr>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>&gt;50%</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Subsidiary</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>Consolidation</td>
-              <td style={{ padding: "12px 8px", color: "#444e5e" }}>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>&gt;50%</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Subsidiary</td>
+              <td style={{ padding: "12px 8px", fontSize: 18, color: "#444e5e" }}>Consolidation</td>
+              <td style={{ padding: "12px 8px", fontSize: 1, color: "#444e5e" }}>
                 100% of income (with NCI adjustments)
               </td>
             </tr>
@@ -1056,6 +1078,7 @@ function LookThroughEarningsManual() {
           border: "1px solid #e1e5e9",
           borderRadius: 8,
           padding: 24,
+          fontSize: 18,
           margin: "24px 0",
         }}
       >
@@ -1063,7 +1086,8 @@ function LookThroughEarningsManual() {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            fontFamily: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+            fontSize: 18,
+            fontFamily: "'Libre Franklin'",
           }}
         >
           <thead>
@@ -1072,6 +1096,7 @@ function LookThroughEarningsManual() {
                 style={{
                   textAlign: "left",
                   padding: "12px 8px",
+                  fontSize: 18,
                   fontWeight: 600,
                   color: "#1a1a1a",
                 }}
@@ -1147,9 +1172,6 @@ function LookThroughEarningsManual() {
         <br />
         That&apos;s the power of look-through earnings — and the mindset that separates speculators
         from true business owners.
-        <br />
-        <br />
-        <strong>And that&apos;s what we deliver at LookThroughProfits.com.</strong>
       </div>
 
       {/* Owner's Earnings Section */}
@@ -1197,7 +1219,7 @@ function LookThroughEarningsManual() {
         </ArgonTypography>
         <ArgonTypography
           variant="body2"
-          style={{ fontSize: 16, color: "#444e5e", lineHeight: 1.6 }}
+          style={{ fontSize: 18, color: "#444e5e", lineHeight: 1.6 }}
         >
           Owner&apos;s Earnings = Net Income + Depreciation & Amortization +/– Non-cash or one-time
           adjustments – Maintenance Capital Expenditures
