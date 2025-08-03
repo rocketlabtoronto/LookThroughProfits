@@ -1,3 +1,5 @@
+// Add Look Through Earnings Manual page
+import LookThroughEarningsManual from "pages/LookThroughEarningsManual";
 import SnapTradeRedirect from "layouts/SnapTradeRedirect";
 import BrokeragesAndAccounts from "layouts/brokeragesAndAccounts";
 import BalanceSheet from "layouts/balanceSheet/BalanceSheet";
@@ -99,6 +101,13 @@ const routes = [
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-email-83" />,
     component: <SendPasswordReset />,
     hidden: true,
+  },
+  {
+    type: "route",
+    name: "Look Through Earnings: The Owner's Manual",
+    key: "look-through-earnings-manual",
+    route: "/look-through-earnings-manual",
+    component: <LookThroughEarningsManual />,
   },
 ];
 
