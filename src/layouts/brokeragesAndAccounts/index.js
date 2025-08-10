@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import brokeragesData from "../../data/brokerages.json";
+import React, { useState, useEffect } from "react";
+import { useAppStore } from "stores/store";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -25,27 +25,48 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddBrokerageDialog from "./AddBrokerageDialog"; // adjust the path as needed
 
 export default function BrokeragesAndAccounts() {
-  const [brokerages, setBrokerages] = useState(brokeragesData);
+  // Get accounts from Zustand store
+  const accounts = useAppStore((state) => state.accounts);
+  const setAccounts = useAppStore((state) => state.setAccounts);
+  const loadDummyData = useAppStore((state) => state.loadDummyData);
+  const clearData = useAppStore((state) => state.clearData);
+
   const [open, setOpen] = useState(false);
   const [snapTradeSuccess, setSnapTradeSuccess] = useState(false);
+  const [showDebug, setShowDebug] = useState(false);
+
+  // Load dummy data on component mount if no accounts exist
+  useEffect(() => {
+    if (accounts.length === 0) {
+      loadDummyData();
+    }
+  }, [accounts.length, loadDummyData]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const toggleInclude = (brokerageId, accountId) => {
-    setBrokerages((prev) =>
-      prev.map((b) =>
-        b.id === brokerageId
-          ? {
-              ...b,
-              accounts: b.accounts.map((a) =>
-                a.id === accountId ? { ...a, included: !a.included } : a
-              ),
-            }
-          : b
-      )
+  const toggleInclude = (accountId) => {
+    const updatedAccounts = accounts.map((account) =>
+      account.id === accountId ? { ...account, included: !account.included } : account
     );
+    setAccounts(updatedAccounts);
   };
+
+  // Group accounts by brokerage
+  const groupedByBrokerage = accounts.reduce((acc, account) => {
+    const brokerageName = account.brokerageName;
+    if (!acc[brokerageName]) {
+      acc[brokerageName] = {
+        name: brokerageName,
+        logo: account.brokerageLogo,
+        accounts: [],
+      };
+    }
+    acc[brokerageName].accounts.push(account);
+    return acc;
+  }, {});
+
+  const brokerages = Object.values(groupedByBrokerage);
 
   const computeSummary = (accounts) => {
     const linked = accounts.filter((a) => a.included);
@@ -59,10 +80,47 @@ export default function BrokeragesAndAccounts() {
     <DashboardLayout>
       <DashboardNavbar />
       <ArgonBox py={3}>
-        {brokerages.map((brokerage) => {
+        {/* Debug Section */}
+        <Box mb={3} p={2} sx={{ backgroundColor: "#f5f5f5", borderRadius: 2 }}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <Typography variant="h6">Data Management</Typography>
+            <Button onClick={() => setShowDebug(!showDebug)} variant="outlined" size="small">
+              {showDebug ? "Hide" : "Show"} Debug Info
+            </Button>
+          </Box>
+
+          {showDebug && (
+            <Box mt={2} p={2} sx={{ backgroundColor: "#fff", borderRadius: 1 }}>
+              <Typography variant="subtitle2" gutterBottom>
+                Current Data State:
+              </Typography>
+              <Typography variant="body2" component="pre" sx={{ fontSize: 12, overflow: "auto" }}>
+                {JSON.stringify(
+                  {
+                    totalAccounts: accounts.length,
+                    brokerages: Object.keys(groupedByBrokerage),
+                    accounts: accounts.map((acc) => ({
+                      id: acc.id,
+                      brokerage: acc.brokerageName,
+                      type: acc.accountType,
+                      balance: acc.balance,
+                      included: acc.included,
+                      holdingsCount: acc.holdings?.length || 0,
+                    })),
+                  },
+                  null,
+                  2
+                )}
+              </Typography>
+            </Box>
+          )}
+        </Box>
+
+        {/* Main Content */}
+        {brokerages.map((brokerage, index) => {
           const { linkedCount, totalCount, linkedBalance } = computeSummary(brokerage.accounts);
           return (
-            <Accordion key={brokerage.id}>
+            <Accordion key={`${brokerage.name}-${index}`}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Box display="flex" flexDirection="column" width="100%">
                   <Box display="flex" alignItems="center" gap={1}>
@@ -85,11 +143,13 @@ export default function BrokeragesAndAccounts() {
                     <ListItem key={account.id} divider>
                       <Checkbox
                         checked={account.included}
-                        onChange={() => toggleInclude(brokerage.id, account.id)}
+                        onChange={() => toggleInclude(account.id)}
                       />
                       <ListItemText
-                        primary={`${account.type} | #${account.number}`}
-                        secondary={`Balance: $${account.balance.toLocaleString()}`}
+                        primary={`${account.accountType} | #${account.accountNumber}`}
+                        secondary={`Balance: $${account.balance.toLocaleString()} | Holdings: ${
+                          account.holdings?.length || 0
+                        }`}
                       />
                     </ListItem>
                   ))}

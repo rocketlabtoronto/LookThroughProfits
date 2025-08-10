@@ -19,11 +19,7 @@ const routes = [
     key: "snapTradeRedirect",
     route: "/snapTradeRedirect",
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-curved-next" />,
-    component: (
-      <RequireAuth>
-        <SnapTradeRedirect />
-      </RequireAuth>
-    ),
+    component: <SnapTradeRedirect />,
     hidden: true,
   },
   {
