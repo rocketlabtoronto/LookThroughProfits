@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 // Dummy data configuration
-const USE_DUMMY_DATA = true; // Set to false to use real data
+const USE_DUMMY_DATA = false; // Set to false to use real data
 
 const dummyAccounts = [
   {
@@ -54,6 +54,13 @@ export const useAppStore = create(
       brokeragesAndAccounts: [],
       accountHoldings: [],
       setBrokeragesAndAccounts: (data) => set({ brokeragesAndAccounts: data }),
+      addBrokeragesAndAccounts: (items) =>
+        set((state) => ({
+          brokeragesAndAccounts: [
+            ...(Array.isArray(state.brokeragesAndAccounts) ? state.brokeragesAndAccounts : []),
+            ...items,
+          ],
+        })),
       setAccountHoldings: (holdings) => set({ accountHoldings: holdings }),
 
       // Account-based data (similar to SnapTrade structure)
@@ -70,7 +77,26 @@ export const useAppStore = create(
       loadDummyData: () => set({ accounts: dummyAccounts }),
 
       // Helper function to clear data
-      clearData: () => set({ accounts: [], accountHoldings: [], brokeragesAndAccounts: [] }),
+      clearData: () =>
+        set({
+          accounts: [],
+          accountHoldings: [],
+          brokeragesAndAccounts: [],
+          snapTradeAccounts: [],
+          snapTradeHoldings: [],
+        }),
+
+      // Helper function to reset storage completely
+      resetStorage: () => {
+        localStorage.removeItem("app-storage");
+        set({
+          accounts: [],
+          accountHoldings: [],
+          brokeragesAndAccounts: [],
+          snapTradeAccounts: [],
+          snapTradeHoldings: [],
+        });
+      },
     }),
     {
       name: "app-storage", // name of the item in storage

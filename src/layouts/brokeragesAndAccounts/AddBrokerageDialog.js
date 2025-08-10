@@ -43,7 +43,12 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
     }
     // Parse and store as usual
     parseBrokerageCsv(selectedFile, (result) => {
-      useAppStore.getState().setBrokeragesAndAccounts(result.firstTable);
+      const first = result.firstTable || {};
+      const accountRaw = String(first.Account || "");
+      const [namePart] = accountRaw.split(" - ");
+      const brokerageName = (namePart || "").trim();
+      const bank = inferBankFromName(brokerageName);
+      useAppStore.getState().addBrokeragesAndAccounts([{ Account: accountRaw, bank }]);
       useAppStore.getState().setAccountHoldings(result.secondTable);
     });
     setManualModalOpen(false);
@@ -51,23 +56,43 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
     onClose();
   };
 
-  // For SnapTrade flow
+  // For SnapTrade flow file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
     setSelectedFile(file);
     parseBrokerageCsv(file, (result) => {
-      useAppStore.getState().setBrokeragesAndAccounts(result.firstTable);
+      const first = result.firstTable || {};
+      const accountRaw = String(first.Account || "");
+      const [namePart] = accountRaw.split(" - ");
+      const brokerageName = (namePart || "").trim();
+      const bank = inferBankFromName(brokerageName);
+      useAppStore.getState().addBrokeragesAndAccounts([{ Account: accountRaw, bank }]);
       useAppStore.getState().setAccountHoldings(result.secondTable);
     });
   };
 
-  const handleUpload = () => {
-    if (!selectedFile) {
-      alert("Please select a file first!");
-      return;
-    }
-    setConsentOpen(true);
+  // Infer short bank code from the brokerage display name for logo mapping
+  const inferBankFromName = (name) => {
+    const n = String(name || "").toLowerCase();
+    if (n.includes("td")) return "TD";
+    if (n.includes("rbc")) return "rbc";
+    if (n.includes("questrade")) return "questrade";
+    if (n.includes("wealthsimple")) return "wealthsimple";
+    if (n.includes("cibc")) return "cibc";
+    if (n.includes("national bank")) return "nbdb";
+    if (n.includes("scotia")) return "scotia";
+    if (n.includes("bmo")) return "bmo";
+    if (n.includes("schwab")) return "charles";
+    if (n.includes("chase")) return "chase";
+    if (n.includes("etrade") || n.includes("e*trade")) return "etrade";
+    if (n.includes("fidelity")) return "fidelity";
+    if (n.includes("interactive brokers")) return "ibkr";
+    if (n.includes("merrill")) return "merrill";
+    if (n.includes("robinhood")) return "robinhood";
+    if (n.includes("vanguard")) return "vanguard";
+    if (n.includes("wells fargo")) return "fargo";
+    return "logo_image"; // default fallback
   };
 
   const handleConsent = () => {
@@ -102,7 +127,6 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
     setSnapTradeModalOpen(false);
     setSnapTradeLoading(false);
   };
-  // ...existing code...
 
   return (
     <>
