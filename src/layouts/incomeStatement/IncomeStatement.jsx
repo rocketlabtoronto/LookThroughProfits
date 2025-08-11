@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Table,
@@ -24,6 +24,14 @@ function IncomeStatement() {
   const { loading, aggregatedData, allAccountsWithLogos } =
     useAggregatedIncomeStatement(selectedAccountId);
 
+  // Auto-select first account when available
+  useEffect(() => {
+    if (!selectedAccountId && Array.isArray(allAccountsWithLogos) && allAccountsWithLogos.length) {
+      setSelectedAccountId(allAccountsWithLogos[0].id);
+    }
+  }, [allAccountsWithLogos, selectedAccountId]);
+
+  const selectedAcc = (allAccountsWithLogos || []).find((a) => a.id === selectedAccountId);
   const handleSelect = (id) => setSelectedAccountId((prev) => (prev === id ? null : id));
 
   return (
@@ -47,9 +55,24 @@ function IncomeStatement() {
 
           {allAccountsWithLogos?.length > 0 && (
             <ArgonBox mb={2}>
-              <ArgonTypography variant="h6" fontWeight="medium" gutterBottom>
-                Accounts
-              </ArgonTypography>
+              <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                <ArgonTypography variant="h6" fontWeight="medium">
+                  Accounts
+                </ArgonTypography>
+                {selectedAcc && (
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <img src={selectedAcc.logo} alt="selected account" style={{ height: 18 }} />
+                    <ArgonTypography variant="body2" color="text" sx={{ fontWeight: 600 }}>
+                      Viewing: {selectedAcc.brokerageName}
+                    </ArgonTypography>
+                    {selectedAcc.accountNumber && (
+                      <ArgonTypography variant="caption" color="text">
+                        #{selectedAcc.accountNumber}
+                      </ArgonTypography>
+                    )}
+                  </Box>
+                )}
+              </Box>
               <Box display="flex" flexWrap="wrap" gap={1.5}>
                 {allAccountsWithLogos.map((acc) => (
                   <Box

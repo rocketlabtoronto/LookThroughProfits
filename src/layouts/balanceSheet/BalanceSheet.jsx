@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArgonBox from "components/ArgonBox";
@@ -16,6 +16,14 @@ function BalanceSheet() {
   const { loading, aggregatedData, allAccountsWithLogos } =
     useAggregatedFinancials(selectedAccountId);
 
+  // Auto-select first account when available
+  useEffect(() => {
+    if (!selectedAccountId && Array.isArray(allAccountsWithLogos) && allAccountsWithLogos.length) {
+      setSelectedAccountId(allAccountsWithLogos[0].id);
+    }
+  }, [allAccountsWithLogos, selectedAccountId]);
+
+  const selectedAcc = (allAccountsWithLogos || []).find((a) => a.id === selectedAccountId);
   const handleSelect = (id) => setSelectedAccountId(id);
 
   return (
@@ -41,9 +49,24 @@ function BalanceSheet() {
             {/* Account selector */}
             {allAccountsWithLogos.length > 0 && (
               <ArgonBox mb={2}>
-                <ArgonTypography variant="h6" fontWeight="medium" gutterBottom>
-                  Accounts
-                </ArgonTypography>
+                <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                  <ArgonTypography variant="h6" fontWeight="medium">
+                    Accounts
+                  </ArgonTypography>
+                  {selectedAcc && (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <img src={selectedAcc.logo} alt="selected account" style={{ height: 18 }} />
+                      <ArgonTypography variant="body2" color="text" sx={{ fontWeight: 600 }}>
+                        Viewing: {selectedAcc.brokerageName}
+                      </ArgonTypography>
+                      {selectedAcc.accountNumber && (
+                        <ArgonTypography variant="caption" color="text">
+                          #{selectedAcc.accountNumber}
+                        </ArgonTypography>
+                      )}
+                    </Box>
+                  )}
+                </Box>
                 <Box display="flex" flexWrap="wrap" gap={1.5}>
                   {allAccountsWithLogos.map((acc) => (
                     <Box
