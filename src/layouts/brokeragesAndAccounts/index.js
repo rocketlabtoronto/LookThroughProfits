@@ -56,6 +56,7 @@ export default function BrokeragesAndAccounts() {
   const resetStorage = useAppStore((state) => state.resetStorage);
   const brokeragesAndAccounts = useAppStore((state) => state.brokeragesAndAccounts);
   const snapTradeAccounts = useAppStore((state) => state.snapTradeAccounts);
+  const unlinkBrokerage = useAppStore((state) => state.unlinkBrokerage);
 
   const [open, setOpen] = useState(false);
   const [snapTradeSuccess, setSnapTradeSuccess] = useState(false);
@@ -220,8 +221,13 @@ export default function BrokeragesAndAccounts() {
                       </ListItem>
                     ))}
                   </List>
-                  <Box mt={1}>
-                    <Button color="error" variant="outlined" size="small">
+                  <Box mt={1} display="flex" gap={1}>
+                    <Button
+                      color="error"
+                      variant="outlined"
+                      size="small"
+                      onClick={() => unlinkBrokerage(brokerage.name)}
+                    >
                       Unlink Brokerage
                     </Button>
                   </Box>

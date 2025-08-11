@@ -152,6 +152,64 @@ export const useAppStore = create(
           snapTradeHoldings: [],
         });
       },
+
+      // Remove all data for a given brokerage name (manual and connected)
+      unlinkBrokerage: (brokerageName) =>
+        set((state) => {
+          const norm = (s) =>
+            String(s || "")
+              .trim()
+              .toLowerCase();
+          const target = norm(brokerageName);
+
+          // Determine which manual accounts (by Account string) will be removed
+          const originalManual = Array.isArray(state.brokeragesAndAccounts)
+            ? state.brokeragesAndAccounts
+            : [];
+          const removedAccountIds = new Set(
+            originalManual
+              .filter((item) => {
+                const accountRaw = String(item.Account || "");
+                const [namePart] = accountRaw.split(" - ");
+                return norm(namePart) === target;
+              })
+              .map((item) => String(item.Account || item.id || ""))
+          );
+
+          // Filter brokeragesAndAccounts
+          const brokeragesAndAccounts = originalManual.filter((item) => {
+            const accountRaw = String(item.Account || "");
+            const [namePart] = accountRaw.split(" - ");
+            return norm(namePart) !== target;
+          });
+
+          // Remove per-account holdings for removed accounts
+          const accountHoldingsByAccount = Object.fromEntries(
+            Object.entries(state.accountHoldingsByAccount || {}).filter(
+              ([accountId]) => !removedAccountIds.has(String(accountId))
+            )
+          );
+
+          // Remove any generic accounts and SnapTrade accounts for this brokerage
+          const accounts = (state.accounts || []).filter((a) => norm(a.brokerageName) !== target);
+          const snapTradeAccounts = (state.snapTradeAccounts || []).filter(
+            (a) => norm(a.brokerageName) !== target
+          );
+
+          // If we removed anything, clear legacy flat holdings
+          const accountHoldings =
+            Array.isArray(brokeragesAndAccounts) && brokeragesAndAccounts.length > 0
+              ? state.accountHoldings
+              : [];
+
+          return {
+            brokeragesAndAccounts,
+            accountHoldingsByAccount,
+            accounts,
+            snapTradeAccounts,
+            accountHoldings,
+          };
+        }),
     }),
     {
       name: "app-storage", // name of the item in storage
