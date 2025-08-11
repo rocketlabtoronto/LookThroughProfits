@@ -199,8 +199,7 @@ export default function BrokeragesAndAccounts() {
                       <Typography variant="h6">{brokerage.name}</Typography>
                     </Box>
                     <Typography variant="body2" color="text.secondary">
-                      {linkedCount} of {totalCount} accounts linked | Linked total: $
-                      {linkedBalance.toLocaleString()}
+                      {linkedCount} of {totalCount} accounts linked
                     </Typography>
                   </Box>
                 </AccordionSummary>
@@ -214,6 +213,7 @@ export default function BrokeragesAndAccounts() {
                         />
                         <ListItemText
                           primary={`${account.accountType} | #${account.accountNumber}`}
+                          primaryTypographyProps={{ variant: "body2" }}
                           secondary={`Balance: $${account.balance.toLocaleString()} | Holdings: ${
                             account.holdings?.length || 0
                           }`}
@@ -223,10 +223,20 @@ export default function BrokeragesAndAccounts() {
                   </List>
                   <Box mt={1} display="flex" gap={1}>
                     <Button
-                      color="error"
                       variant="outlined"
                       size="small"
                       onClick={() => unlinkBrokerage(brokerage.name)}
+                      sx={{
+                        backgroundColor: "#fff",
+                        color: "#000",
+                        borderColor: "#000",
+                        fontWeight: 500,
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#000",
+                          color: "#000",
+                        },
+                      }}
                     >
                       Unlink Brokerage
                     </Button>
