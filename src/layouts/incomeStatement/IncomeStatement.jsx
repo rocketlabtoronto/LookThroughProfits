@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Table,
@@ -8,6 +8,7 @@ import {
   TableRow,
   TableHead,
 } from "@mui/material";
+import Box from "@mui/material/Box";
 
 import ArgonTypography from "components/ArgonTypography";
 import ArgonBox from "components/ArgonBox";
@@ -19,7 +20,12 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 function IncomeStatement() {
-  const { loading, aggregatedData } = useAggregatedIncomeStatement();
+  const [selectedAccountId, setSelectedAccountId] = useState(null);
+  const { loading, aggregatedData, allAccountsWithLogos } =
+    useAggregatedIncomeStatement(selectedAccountId);
+
+  const handleSelect = (id) => setSelectedAccountId((prev) => (prev === id ? null : id));
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -38,6 +44,45 @@ function IncomeStatement() {
           <ArgonTypography variant="h4" fontWeight="bold" gutterBottom>
             Income Statement
           </ArgonTypography>
+
+          {allAccountsWithLogos?.length > 0 && (
+            <ArgonBox mb={2}>
+              <ArgonTypography variant="h6" fontWeight="medium" gutterBottom>
+                Accounts
+              </ArgonTypography>
+              <Box display="flex" flexWrap="wrap" gap={1.5}>
+                {allAccountsWithLogos.map((acc) => (
+                  <Box
+                    key={acc.id}
+                    onClick={() => handleSelect(acc.id)}
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    sx={{
+                      border: selectedAccountId === acc.id ? "2px solid #344767" : "1px solid #eee",
+                      borderRadius: 2,
+                      px: 1.5,
+                      py: 1,
+                      backgroundColor: selectedAccountId === acc.id ? "#eef2ff" : "#fafbfc",
+                      cursor: "pointer",
+                    }}
+                    title={`${acc.brokerageName} #${acc.accountNumber}`}
+                  >
+                    <img src={acc.logo} alt={`${acc.brokerageName} logo`} style={{ height: 22 }} />
+                    <ArgonTypography variant="button" color="text" sx={{ fontWeight: 600 }}>
+                      {acc.brokerageName}
+                    </ArgonTypography>
+                    {acc.accountNumber && (
+                      <ArgonTypography variant="caption" color="text">
+                        #{acc.accountNumber}
+                      </ArgonTypography>
+                    )}
+                  </Box>
+                ))}
+              </Box>
+            </ArgonBox>
+          )}
+
           <FinancialExplanation />
           <ProRataTable loading={loading} data={aggregatedData} />
         </Card>

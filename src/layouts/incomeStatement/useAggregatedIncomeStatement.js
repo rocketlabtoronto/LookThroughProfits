@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import supabaseService from "services/supabaseService";
 import { useAppStore } from "../../stores/store";
+import { logoFromBank } from "../../utils/brokerageLogos";
 
 const columns = [
   { name: "Company", align: "left" },
@@ -11,11 +12,28 @@ const columns = [
   { name: "Net Income", align: "right" },
 ];
 
-function useAggregatedIncomeStatement() {
+function useAggregatedIncomeStatement(selectedAccountId = null) {
   const [aggregatedData, setAggregatedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const portfolioHoldings = useAppStore((state) => state.accountHoldings) || [];
+  const holdingsByAccount = useAppStore((state) => state.accountHoldingsByAccount) || {};
   const brokeragesAndAccounts = useAppStore((state) => state.brokeragesAndAccounts) || [];
+
+  // Build account list with logos for selector
+  const allAccountsWithLogos = (
+    Array.isArray(brokeragesAndAccounts) ? brokeragesAndAccounts : []
+  ).map((item) => {
+    const accountRaw = String(item.Account || "");
+    const [namePart, numberPart] = accountRaw.split(" - ");
+    const brokerageName = (namePart || "Unknown Brokerage").trim();
+    const accountNumber = (numberPart || "").trim();
+    return {
+      id: accountRaw,
+      brokerageName,
+      accountNumber,
+      logo: logoFromBank(item.bank),
+    };
+  });
 
   // Flatten nested holdings if top-level is empty
   const flattenedHoldings = (
@@ -32,8 +50,12 @@ function useAggregatedIncomeStatement() {
   useEffect(() => {
     async function loadAggregatedIncomeStatement() {
       try {
+        const targetHoldings = selectedAccountId
+          ? holdingsByAccount[selectedAccountId] || []
+          : defaultHoldings;
+
         const rows = await Promise.all(
-          (defaultHoldings || []).map(async ({ Symbol, Quantity }) => {
+          (targetHoldings || []).map(async ({ Symbol, Quantity }) => {
             const quantity = parseFloat(Quantity);
             if (isNaN(quantity) || quantity <= 0) return null;
 
@@ -111,9 +133,9 @@ function useAggregatedIncomeStatement() {
     }
 
     loadAggregatedIncomeStatement();
-  }, [defaultHoldings]);
+  }, [defaultHoldings, holdingsByAccount, brokeragesAndAccounts, selectedAccountId]);
 
-  return { loading, aggregatedData };
+  return { loading, aggregatedData, allAccountsWithLogos };
 }
 
 export default useAggregatedIncomeStatement;
