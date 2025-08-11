@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 
 import ArgonTypography from "components/ArgonTypography";
 import ArgonBox from "components/ArgonBox";
-import FinancialExplanation from "../balanceSheet/FinancialExplanation";
+import FinancialExplanation from "../incomeStatement/FinancialExplanation";
 import ProRataTable from "../balanceSheet/ProRataTable";
 import useAggregatedIncomeStatement from "../incomeStatement/useAggregatedIncomeStatement";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
