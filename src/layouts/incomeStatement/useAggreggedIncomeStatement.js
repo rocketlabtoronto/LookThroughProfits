@@ -1,66 +1,45 @@
 import { useState, useEffect } from "react";
 import supabaseService from "services/supabaseService";
 import { useAppStore } from "../../stores/store";
-import { logoFromBank } from "../../utils/brokerageLogos";
 
 const columns = [
   { name: "Company", align: "left" },
   { name: "Ownership Share", align: "right" },
-  { name: "Assets", align: "right" },
-  { name: "Equity", align: "right" },
-  { name: "Cash & Equivalents", align: "right" },
-  { name: "Liabilities", align: "right" },
+  { name: "Revenue", align: "right" },
+  { name: "Gross Profit", align: "right" },
+  { name: "Operating Profit", align: "right" },
+  { name: "Net Income", align: "right" },
 ];
 
-function useAggregatedFinancials(selectedAccountId = null) {
+function useAggregatedIncomeStatement() {
   const [aggregatedData, setAggregatedData] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const portfolioHoldings = useAppStore((state) => state.accountHoldings) || [];
-  const holdingsByAccount = useAppStore((state) => state.accountHoldingsByAccount) || {};
   const brokeragesAndAccounts = useAppStore((state) => state.brokeragesAndAccounts) || [];
 
-  const allAccountsWithLogos = (
-    Array.isArray(brokeragesAndAccounts) ? brokeragesAndAccounts : []
-  ).map((item) => {
-    const accountRaw = String(item.Account || "");
-    const [namePart, numberPart] = accountRaw.split(" - ");
-    const brokerageName = (namePart || "Unknown Brokerage").trim();
-    const accountNumber = (numberPart || "").trim();
-    return {
-      id: accountRaw,
-      brokerageName,
-      accountNumber,
-      logo: logoFromBank(item.bank),
-    };
-  });
-
-  // If top-level holdings are empty, derive a flattened list from brokeragesAndAccounts
+  // Flatten nested holdings if top-level is empty
   const flattenedHoldings = (
     Array.isArray(brokeragesAndAccounts) ? brokeragesAndAccounts : []
   ).flatMap((x) => (Array.isArray(x.holdings) ? x.holdings : []));
   const defaultHoldings = portfolioHoldings?.length ? portfolioHoldings : flattenedHoldings;
 
   useEffect(() => {
-    async function loadAggregatedFinancials() {
+    async function loadAggregatedIncomeStatement() {
       try {
-        const targetHoldings = selectedAccountId
-          ? holdingsByAccount[selectedAccountId] || []
-          : defaultHoldings;
-
         const rows = await Promise.all(
-          (targetHoldings || []).map(async ({ Symbol, Quantity }) => {
+          (defaultHoldings || []).map(async ({ Symbol, Quantity }) => {
             const quantity = parseFloat(Quantity);
             if (isNaN(quantity) || quantity <= 0) return null;
+
             try {
               const financials = await supabaseService.getFinancials({ ticker: Symbol });
               if (!Array.isArray(financials) || financials.length === 0) return null;
 
               const requiredTags = [
-                "Assets",
-                "Equity",
-                "CashAndEquivalents",
-                "Liabilities",
+                "Revenue",
+                "GrossProfit",
+                "OperatingProfit",
+                "NetIncome",
                 "SharesOutstanding",
               ];
 
@@ -97,14 +76,15 @@ function useAggregatedFinancials(selectedAccountId = null) {
               return {
                 Company: `${Symbol} (${Symbol})`,
                 "Ownership Share": formatOwnership(quantity, sharesOutstanding),
-                Assets: prorated("Assets") !== null ? formatMoney(prorated("Assets")) : "N/A",
-                Equity: prorated("Equity") !== null ? formatMoney(prorated("Equity")) : "N/A",
-                "Cash & Equivalents":
-                  prorated("CashAndEquivalents") !== null
-                    ? formatMoney(prorated("CashAndEquivalents"))
+                Revenue: prorated("Revenue") !== null ? formatMoney(prorated("Revenue")) : "N/A",
+                "Gross Profit":
+                  prorated("GrossProfit") !== null ? formatMoney(prorated("GrossProfit")) : "N/A",
+                "Operating Profit":
+                  prorated("OperatingProfit") !== null
+                    ? formatMoney(prorated("OperatingProfit"))
                     : "N/A",
-                Liabilities:
-                  prorated("Liabilities") !== null ? formatMoney(prorated("Liabilities")) : "N/A",
+                "Net Income":
+                  prorated("NetIncome") !== null ? formatMoney(prorated("NetIncome")) : "N/A",
               };
             } catch (err) {
               console.error(`Error loading financials for ${Symbol}:`, err);
@@ -116,19 +96,18 @@ function useAggregatedFinancials(selectedAccountId = null) {
         setAggregatedData({
           columns,
           rows: rows.filter(Boolean),
-          brokerageAccounts: allAccountsWithLogos,
         });
       } catch (error) {
-        console.error("Failed to load aggregated financials:", error);
+        console.error("Failed to load aggregated income statement:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    loadAggregatedFinancials();
-  }, [defaultHoldings, holdingsByAccount, brokeragesAndAccounts, selectedAccountId]);
+    loadAggregatedIncomeStatement();
+  }, [defaultHoldings]);
 
-  return { loading, aggregatedData, allAccountsWithLogos };
+  return { loading, aggregatedData };
 }
 
-export default useAggregatedFinancials;
+export default useAggregatedIncomeStatement;

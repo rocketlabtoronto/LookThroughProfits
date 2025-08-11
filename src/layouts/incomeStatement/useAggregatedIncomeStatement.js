@@ -15,12 +15,25 @@ function useAggregatedIncomeStatement() {
   const [aggregatedData, setAggregatedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const portfolioHoldings = useAppStore((state) => state.accountHoldings) || [];
+  const brokeragesAndAccounts = useAppStore((state) => state.brokeragesAndAccounts) || [];
+
+  // Flatten nested holdings if top-level is empty
+  const flattenedHoldings = (
+    Array.isArray(brokeragesAndAccounts) ? brokeragesAndAccounts : []
+  ).flatMap((x) =>
+    Array.isArray(x.holdings)
+      ? x.holdings
+      : Array.isArray(x.accountHoldings)
+      ? x.accountHoldings
+      : []
+  );
+  const defaultHoldings = portfolioHoldings?.length ? portfolioHoldings : flattenedHoldings;
 
   useEffect(() => {
     async function loadAggregatedIncomeStatement() {
       try {
         const rows = await Promise.all(
-          portfolioHoldings.map(async ({ Symbol, Quantity }) => {
+          (defaultHoldings || []).map(async ({ Symbol, Quantity }) => {
             const quantity = parseFloat(Quantity);
             if (isNaN(quantity) || quantity <= 0) return null;
 
@@ -98,7 +111,7 @@ function useAggregatedIncomeStatement() {
     }
 
     loadAggregatedIncomeStatement();
-  }, [portfolioHoldings]);
+  }, [defaultHoldings]);
 
   return { loading, aggregatedData };
 }

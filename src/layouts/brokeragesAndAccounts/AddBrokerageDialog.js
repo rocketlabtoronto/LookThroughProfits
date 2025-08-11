@@ -35,21 +35,32 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
     setSelectedFile(file);
   };
 
+  const storeParsed = (result) => {
+    const first = result.firstTable || {};
+    const accountRaw = String(first.Account || "");
+    const [namePart] = accountRaw.split(" - ");
+    const brokerageName = (namePart || "").trim();
+    const bank = inferBankFromName(brokerageName);
+    const accountId = accountRaw; // use full string as ID; can refine if needed
+
+    const holdings = result.secondTable || [];
+
+    // Persist on the element itself
+    useAppStore.getState().upsertBrokerageAccount({ Account: accountRaw, bank, holdings });
+
+    // Also maintain per-account and flat legacy stores for backward compatibility
+    useAppStore.getState().setAccountHoldingsForAccount(accountId, holdings);
+    useAppStore.getState().setAccountHoldings(holdings);
+  };
+
   // For manual upload modal, handle upload
   const handleManualUpload = () => {
     if (!selectedFile) {
       alert("Please select a file first!");
       return;
     }
-    // Parse and store as usual
     parseBrokerageCsv(selectedFile, (result) => {
-      const first = result.firstTable || {};
-      const accountRaw = String(first.Account || "");
-      const [namePart] = accountRaw.split(" - ");
-      const brokerageName = (namePart || "").trim();
-      const bank = inferBankFromName(brokerageName);
-      useAppStore.getState().addBrokeragesAndAccounts([{ Account: accountRaw, bank }]);
-      useAppStore.getState().setAccountHoldings(result.secondTable);
+      storeParsed(result);
     });
     setManualModalOpen(false);
     setSelectedFile(null);
@@ -62,13 +73,7 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
     if (!file) return;
     setSelectedFile(file);
     parseBrokerageCsv(file, (result) => {
-      const first = result.firstTable || {};
-      const accountRaw = String(first.Account || "");
-      const [namePart] = accountRaw.split(" - ");
-      const brokerageName = (namePart || "").trim();
-      const bank = inferBankFromName(brokerageName);
-      useAppStore.getState().addBrokeragesAndAccounts([{ Account: accountRaw, bank }]);
-      useAppStore.getState().setAccountHoldings(result.secondTable);
+      storeParsed(result);
     });
   };
 

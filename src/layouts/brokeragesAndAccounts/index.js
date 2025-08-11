@@ -93,15 +93,26 @@ export default function BrokeragesAndAccounts() {
         const [namePart, numberPart] = accountRaw.split(" - ");
         const brokerageName = (namePart || "Unknown Brokerage").trim();
         const accountNum = (numberPart || "").trim();
+        const holdings = Array.isArray(item.accountHoldings)
+          ? item.accountHoldings
+          : Array.isArray(item.holdings)
+          ? item.holdings
+          : [];
+        const balance = holdings.reduce((sum, h) => {
+          const qty = parseFloat(h.Quantity ?? h.shares ?? 0);
+          const price = parseFloat(h.currentPrice ?? 0);
+          const mv = h.marketValue != null ? parseFloat(h.marketValue) : qty * price;
+          return sum + (isNaN(mv) ? 0 : mv);
+        }, 0);
         return {
           id: accountNum || accountRaw || `brokerage_${Math.random()}`,
           brokerageName,
           brokerageLogo: logoFromBank(item.bank),
           accountType: "Account",
           accountNumber: accountNum,
-          balance: 0,
+          balance,
           included: true,
-          holdings: [],
+          holdings,
         };
       })
     : [];
@@ -114,7 +125,7 @@ export default function BrokeragesAndAccounts() {
     if (!acc[brokerageName]) {
       acc[brokerageName] = {
         name: brokerageName,
-        logo: account.brokerageLogo || getBrokerageLogo(brokerageName),
+        logo: account.brokerageLogo || logoFromBank(account.bank),
         accounts: [],
       };
     }
