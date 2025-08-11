@@ -28,6 +28,10 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
   const [snapTradeError, setSnapTradeError] = useState("");
   const [snapTradeLoading, setSnapTradeLoading] = useState(false);
 
+  // Read global flag to disable SnapTrade integrations
+  const isSnapTradeDisabled =
+    String(process.env.REACT_APP_DISABLE_SNAPTRADE || "").toLowerCase() === "true";
+
   // For manual upload modal, handle file selection
   const handleManualFileChange = (event) => {
     const file = event.target.files[0];
@@ -107,7 +111,11 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
 
   // Handle tile click
   const handleBrokerageTileClick = (broker) => {
-    if (broker.integration === isIntegrationAvailable.notAvailable) {
+    const requiresManual =
+      broker.integration === isIntegrationAvailable.notAvailable ||
+      (broker.integration === isIntegrationAvailable.snapTrade && isSnapTradeDisabled);
+
+    if (requiresManual) {
       setManualBrokerage(broker.name);
       setManualModalOpen(true);
       setSelectedFile(null);
@@ -152,6 +160,11 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>Select your country and brokerage:</Typography>
+          {isSnapTradeDisabled && (
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              Direct brokerage connections are temporarily unavailable. Please use manual upload.
+            </Typography>
+          )}
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
             <select
               value={country}
@@ -171,44 +184,42 @@ export default function AddBrokerageDialog({ open, onClose, onSnapTradeSuccess }
               justifyContent: "center",
             }}
           >
-            {brokerages[country].map((broker) => (
-              <div
-                key={broker.name}
-                onClick={() => handleBrokerageTileClick(broker)}
-                style={{
-                  width: 125,
-                  height: 125,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "1px solid #eee",
-                  borderRadius: 8,
-                  background: "#fafbfc",
-                  cursor: "pointer",
-                  boxShadow:
-                    broker.integration === isIntegrationAvailable.notAvailable
-                      ? "0 0 0 2px #f5a623"
-                      : "none",
-                  opacity: broker.integration === isIntegrationAvailable.notAvailable ? 0.85 : 1,
-                  transition: "box-shadow 0.2s, opacity 0.2s",
-                }}
-                title={
-                  broker.integration === isIntegrationAvailable.notAvailable
-                    ? "Manual upload required"
-                    : "Connect via API"
-                }
-              >
-                <img
-                  src={broker.logo}
-                  alt={broker.name}
-                  style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 4 }}
-                />
-                <span style={{ fontSize: 12, textAlign: "center", color: "#333" }}>
-                  {broker.name}
-                </span>
-              </div>
-            ))}
+            {brokerages[country].map((broker) => {
+              const requiresManual =
+                broker.integration === isIntegrationAvailable.notAvailable ||
+                (broker.integration === isIntegrationAvailable.snapTrade && isSnapTradeDisabled);
+              return (
+                <div
+                  key={broker.name}
+                  onClick={() => handleBrokerageTileClick(broker)}
+                  style={{
+                    width: 125,
+                    height: 125,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    border: "1px solid #eee",
+                    borderRadius: 8,
+                    background: "#fafbfc",
+                    cursor: "pointer",
+                    boxShadow: requiresManual ? "0 0 0 2px #f5a623" : "none",
+                    opacity: requiresManual ? 0.85 : 1,
+                    transition: "box-shadow 0.2s, opacity 0.2s",
+                  }}
+                  title={requiresManual ? "Manual upload required" : "Connect via API"}
+                >
+                  <img
+                    src={broker.logo}
+                    alt={broker.name}
+                    style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 4 }}
+                  />
+                  <span style={{ fontSize: 12, textAlign: "center", color: "#333" }}>
+                    {broker.name}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           {/* Only show file input for SnapTrade brokerages (if needed) */}
           <input
