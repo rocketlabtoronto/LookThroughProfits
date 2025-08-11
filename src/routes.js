@@ -11,6 +11,7 @@ import Login from "layouts/login/login";
 
 import ArgonBox from "components/ArgonBox";
 import RequireAuth from "components/RequireAuth";
+import RequireBrokerageConnected from "components/RequireBrokerageConnected";
 
 const routes = [
   {
@@ -44,7 +45,9 @@ const routes = [
     ),
     component: (
       <RequireAuth>
-        <BalanceSheet />
+        <RequireBrokerageConnected>
+          <BalanceSheet />
+        </RequireBrokerageConnected>
       </RequireAuth>
     ),
   },
@@ -56,7 +59,9 @@ const routes = [
     icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-money-coins" />,
     component: (
       <RequireAuth>
-        <IncomeStatement />
+        <RequireBrokerageConnected>
+          <IncomeStatement />
+        </RequireBrokerageConnected>
       </RequireAuth>
     ),
   },
@@ -103,7 +108,11 @@ const routes = [
     name: "The Owner's Manual",
     key: "look-through-earnings-manual",
     route: "/look-through-earnings-manual",
-    component: <LookThroughEarningsManual />,
+    component: (
+      <RequireBrokerageConnected>
+        <LookThroughEarningsManual />
+      </RequireBrokerageConnected>
+    ),
   },
 ];
 
