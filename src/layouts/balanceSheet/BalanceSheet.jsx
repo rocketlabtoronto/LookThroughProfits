@@ -56,7 +56,7 @@ function BalanceSheet() {
                   {selectedAcc && (
                     <Box display="flex" alignItems="center" gap={1}>
                       <img src={selectedAcc.logo} alt="selected account" style={{ height: 18 }} />
-                      <ArgonTypography variant="body2" color="text" sx={{ fontWeight: 600 }}>
+                      <ArgonTypography variant="caption" color="text">
                         Viewing: {selectedAcc.brokerageName}
                       </ArgonTypography>
                       {selectedAcc.accountNumber && (
