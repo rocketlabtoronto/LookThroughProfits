@@ -59,34 +59,35 @@ function Login() {
         background: "#27ae60",
       }}
     >
-      <div style={{ marginBottom: 24, textAlign: "center" }}>
-        <img
-          src={logo}
-          alt="LookThroughProfits Logo"
-          style={{
-            maxWidth: 300,
-            height: "auto",
-            border: "2px solid #eee",
-            background: "#fff",
-            borderRadius: 8,
-            display: "inline-block",
-          }}
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = "https://via.placeholder.com/180x50?text=Logo+Not+Found";
-          }}
-        />
-      </div>
       <div
         style={{
           background: "white",
           borderRadius: 16,
           boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
-          padding: 32,
+          padding: 16,
           maxWidth: 400,
           width: "100%",
         }}
       >
+        <div style={{ marginBottom: 24, textAlign: "center" }}>
+          <img
+            src={logo}
+            alt="LookThroughProfits Logo"
+            style={{
+              maxWidth: 300,
+              height: "auto",
+              border: "0px solid #eee",
+              background: "#fff",
+              borderRadius: 8,
+              display: "inline-block",
+            }}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "https://via.placeholder.com/180x50?text=Logo+Not+Found";
+            }}
+          />
+        </div>
+
         <h2
           style={{
             fontWeight: "bold",
@@ -132,6 +133,8 @@ function Login() {
                     padding: "10px",
                     borderRadius: "6px",
                     border: "1px solid #e0e0e0",
+                    marginBottom: 12,
+                    fontSize: 15,
                   }}
                   required
                 />
