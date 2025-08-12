@@ -265,7 +265,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 </Box>
               </Box>
               <Divider />
-              <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
