@@ -211,10 +211,10 @@ export default function BrokeragesAndAccounts() {
                     Invest Like an Owner. See Your Look‑Through Earnings.
                   </Typography>
                   <Typography
-                    variant="h6"
+                    variant="body1"
                     color="text.secondary"
                     fontWeight={400}
-                    sx={{ maxWidth: 900 }}
+                    sx={{ maxWidth: 900, lineHeight: 1.55, mb: 1 }}
                   >
                     We aggregate the net earnings of the businesses you own so you move beyond price
                     watching and start compounding intelligently.
@@ -227,8 +227,8 @@ export default function BrokeragesAndAccounts() {
                 >
                   Connect your brokerage to instantly unify holdings across accounts, surface your
                   proportional share of revenue and profit, and focus decisions on business
-                  value—not volatility. This is your look‑through earnings dashboard: invest like a
-                  business owner, not a speculator.
+                  value—not stock price volatility. This is your look‑through earnings dashboard:
+                  invest like a business owner, not a speculator.
                 </Typography>
                 <Grid container spacing={4}>
                   {[
@@ -317,7 +317,7 @@ export default function BrokeragesAndAccounts() {
                 {/* Logos grid */}
                 <Box>
                   <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 1 }}>
-                    SUPPORTED INSTITUTIONS (SAMPLE)
+                    SUPPORTED INSTITUTIONS
                   </Typography>
                   <Grid container spacing={2} mt={0.5}>
                     {Array.from(new Set(Object.values(bankLogoMap)))
