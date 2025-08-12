@@ -176,6 +176,15 @@ function Login() {
                 Send Password Reset
               </a>
             </div>
+            <div style={{ textAlign: "center", marginTop: 12, fontSize: 15 }}>
+              <span style={{ color: "#344767" }}>Don&apos;t have an account?&nbsp;</span>
+              <a
+                href="/billing"
+                style={{ color: "#5e72e4", textDecoration: "underline", fontWeight: 500 }}
+              >
+                Sign Up
+              </a>
+            </div>
           </>
         )}
       </div>
