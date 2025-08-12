@@ -27,6 +27,7 @@ import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 
 // Argon Dashboard 2 MUI context
 import { useArgonController, setMiniSidenav } from "context";
+import { useAuthStore } from "stores/useAuthStore";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useArgonController();
@@ -54,6 +55,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
+
+  const clearUser = useAuthStore((s) => s.clearUser);
+
+  const handleSignOut = () => {
+    clearUser();
+    window.location.href = "/login";
+  };
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes
@@ -108,6 +116,25 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   return (
     <SidenavRoot {...rest} variant="permanent" ownerState={{ darkSidenav, miniSidenav, layout }}>
       <List>{renderRoutes}</List>
+      <div style={{ flexGrow: 1 }} />
+      <div style={{ padding: "12px 16px", marginTop: "auto" }}>
+        <button
+          onClick={handleSignOut}
+          style={{
+            width: "100%",
+            background: "#fff",
+            color: "#000",
+            border: "1px solid #000",
+            borderRadius: 8,
+            padding: "10px 12px",
+            fontSize: 14,
+            fontWeight: 500,
+            cursor: "pointer",
+          }}
+        >
+          Sign Out
+        </button>
+      </div>
     </SidenavRoot>
   );
 }

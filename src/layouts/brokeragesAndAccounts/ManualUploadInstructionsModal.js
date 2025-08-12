@@ -104,10 +104,21 @@ function ManualUploadInstructionsModal({
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} color="primary" sx={{ textTransform: "none", fontWeight: 500 }}>
           Cancel
         </Button>
-        <Button onClick={onUpload} variant="contained" color="primary" disabled={!selectedFile}>
+        <Button
+          onClick={onUpload}
+          variant="contained"
+          color="primary"
+          disabled={!selectedFile}
+          sx={{
+            textTransform: "none",
+            fontWeight: 600,
+            color: "#fff",
+            "&.Mui-disabled": { opacity: 0.5, color: "#fff" },
+          }}
+        >
           Upload
         </Button>
       </DialogActions>

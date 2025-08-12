@@ -28,7 +28,13 @@ const routes = [
     name: "Brokerages and Accounts",
     key: "dashboard",
     route: "/brokeragesAndAccounts",
-    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-tv-2" />,
+    icon: (
+      <img
+        src="/logos/brokerages_accounts.svg"
+        alt="Brokerages"
+        style={{ width: 20, height: 20 }}
+      />
+    ),
     component: (
       <RequireAuth>
         <BrokeragesAndAccounts />
@@ -41,7 +47,7 @@ const routes = [
     key: "balanceSheet",
     route: "/balanceSheet",
     icon: (
-      <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-calendar-grid-58" />
+      <img src="/logos/balance_sheet.svg" alt="Balance Sheet" style={{ width: 20, height: 20 }} />
     ),
     component: (
       <RequireAuth>
@@ -56,7 +62,13 @@ const routes = [
     name: "Income Statement",
     key: "incomeStatement",
     route: "/incomeStatement",
-    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-money-coins" />,
+    icon: (
+      <img
+        src="/logos/income_statement.svg"
+        alt="Income Statement"
+        style={{ width: 20, height: 20 }}
+      />
+    ),
     component: (
       <RequireAuth>
         <RequireBrokerageConnected>
@@ -108,6 +120,9 @@ const routes = [
     name: "The Owner's Manual",
     key: "look-through-earnings-manual",
     route: "/look-through-earnings-manual",
+    icon: (
+      <img src="/logos/owners_manual.svg" alt="Owner's Manual" style={{ width: 20, height: 20 }} />
+    ),
     component: (
       <RequireBrokerageConnected>
         <LookThroughEarningsManual />
