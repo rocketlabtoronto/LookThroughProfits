@@ -28,30 +28,20 @@ export default function Privacy() {
             <ArgonTypography variant="h4" fontWeight="bold" color="text" gutterBottom>
               Privacy Policy
             </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Effective Date: {effectiveDate}
-            </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Company: LookThroughProfits, Inc.
-            </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Address: 169 Madison Ave STE 38180, New York, NY 10016, USA
-            </ArgonTypography>
-
             <Divider sx={{ my: 3 }} />
-
             {/* Table of Contents */}
             <ArgonTypography variant="subtitle2" color="text" fontWeight={700} gutterBottom>
               Contents
             </ArgonTypography>
-
             <Link
               href="#info-we-collect"
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mt: 1,
+                mb: 0.5,
               }}
             >
               1. Information We Collect
@@ -61,8 +51,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               2. How We Use Information
@@ -72,8 +63,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               3. Sharing of Information
@@ -84,8 +76,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               4. Data Retention
@@ -96,8 +89,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               5. Security
@@ -107,8 +101,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               6. Your Rights
@@ -118,8 +113,9 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
-                lineHeight: 1.6,
+                fontSize: "1rem",
+                lineHeight: 1.4,
+                mb: 0.5,
               }}
             >
               7. International Users
@@ -129,7 +125,7 @@ export default function Privacy() {
               underline="hover"
               sx={{
                 display: "block",
-                fontSize: "0.875rem",
+                fontSize: "1rem",
                 lineHeight: 1.4,
                 mb: 2,
               }}

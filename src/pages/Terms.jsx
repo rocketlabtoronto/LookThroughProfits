@@ -28,16 +28,6 @@ export default function Terms() {
             <ArgonTypography variant="h4" fontWeight="bold" color="text" gutterBottom>
               Terms of Use
             </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Effective Date: {effectiveDate}
-            </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Company: LookThroughProfits, Inc.
-            </ArgonTypography>
-            <ArgonTypography variant="caption" color="text" display="block" gutterBottom>
-              Address: 169 Madison Ave STE 38180, New York, NY 10016, USA
-            </ArgonTypography>
-
             <Divider sx={{ my: 3 }} />
 
             {/* Table of Contents */}
@@ -47,56 +37,56 @@ export default function Terms() {
             <Link
               href="#service"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mt: 1, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mt: 1, mb: 0.5 }}
             >
               1. Service Provided
             </Link>
             <Link
               href="#accounts"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               2. Accounts
             </Link>
             <Link
               href="#payments"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               3. Payments
             </Link>
             <Link
               href="#acceptable-use"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               4. Acceptable Use
             </Link>
             <Link
               href="#ip"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               5. Intellectual Property
             </Link>
             <Link
               href="#liability"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               6. Limitation of Liability
             </Link>
             <Link
               href="#termination"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 0.5 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
             >
               7. Termination
             </Link>
             <Link
               href="#law"
               underline="hover"
-              sx={{ display: "block", fontSize: "0.875rem", lineHeight: 1.4, mb: 2 }}
+              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 2 }}
             >
               8. Governing Law
             </Link>
@@ -139,18 +129,18 @@ export default function Terms() {
             >
               4. Acceptable Use
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
               Do not reverse engineer, copy, or resell the Service.
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
               Do not use the Service for unlawful or harmful purposes.
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
               Do not attempt to gain unauthorized access to our systems.
             </ArgonTypography>
 
             <ArgonTypography
-              id="sharing"
+              id="ip"
               variant="h6"
               fontWeight={700}
               color="text"
