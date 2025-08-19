@@ -28,117 +28,148 @@ export default function Terms() {
             <ArgonTypography variant="h4" fontWeight="bold" color="text" gutterBottom>
               Terms of Use
             </ArgonTypography>
-            <Divider sx={{ my: 3 }} />
 
-            {/* Table of Contents */}
-            <ArgonTypography variant="subtitle2" color="text" fontWeight={700} gutterBottom>
-              Contents
+            {/* Top meta */}
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Effective Date: {effectiveDate}
             </ArgonTypography>
-            <Link
-              href="#service"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mt: 1, mb: 0.5 }}
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Company: LookThroughProfits, Inc.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Address: 169 Madison Ave STE 38180, New York, NY 10016, USA
+            </ArgonTypography>
+            <ArgonTypography
+              variant="body2"
+              color="text"
+              display="block"
+              sx={{ lineHeight: 1.7, mb: 1 }}
             >
-              1. Service Provided
-            </Link>
-            <Link
-              href="#accounts"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              2. Accounts
-            </Link>
-            <Link
-              href="#payments"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              3. Payments
-            </Link>
-            <Link
-              href="#acceptable-use"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              4. Acceptable Use
-            </Link>
-            <Link
-              href="#ip"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              5. Intellectual Property
-            </Link>
-            <Link
-              href="#liability"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              6. Limitation of Liability
-            </Link>
-            <Link
-              href="#termination"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 0.5 }}
-            >
-              7. Termination
-            </Link>
-            <Link
-              href="#law"
-              underline="hover"
-              sx={{ display: "block", fontSize: "1rem", lineHeight: 1.4, mb: 2 }}
-            >
-              8. Governing Law
-            </Link>
-
-            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              By using LookThroughProfits.com (&quot;Service&quot;), you agree to the following
-              terms. The Service is for informational and educational purposes only. We are not a
-              registered investment adviser, broker-dealer, or financial institution.
+              Contact:{" "}
+              <Link href="mailto:support@lookthroughprofits.com">
+                support@lookthroughprofits.com
+              </Link>
             </ArgonTypography>
 
-            <ArgonTypography id="service" variant="h6" fontWeight={700} color="text" gutterBottom>
-              1. Service Provided
+            <Divider sx={{ my: 2 }} />
+
+            {/* 1. Acceptance of Terms */}
+            <ArgonTypography
+              id="acceptance"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+            >
+              1. Acceptance of Terms
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              LookThroughProfits provides software analytics on public company data.
+              By accessing or using LookThroughProfits.com or any related services (the
+              &quot;Service&quot;), you agree to be bound by these Terms of Use (&quot;Terms&quot;).
+              If you do not agree, do not use the Service.
             </ArgonTypography>
 
-            <ArgonTypography id="accounts" variant="h6" fontWeight={700} color="text" gutterBottom>
-              2. Accounts
+            {/* 2. Service Provided */}
+            <ArgonTypography
+              id="service"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              2. Service Provided
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              You must provide accurate information when creating an account. You are responsible
-              for maintaining the security of your account.
+              LookThroughProfits, Inc. provides subscription software that analyzes and presents
+              data from public company filings and other financial information. The Service is
+              intended for informational and educational purposes only.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              We are not a registered investment adviser, broker-dealer, financial institution, or
+              fiduciary.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Nothing in the Service constitutes investment, financial, tax, or legal advice.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Users are solely responsible for their own investment and financial decisions.
             </ArgonTypography>
 
-            <ArgonTypography id="payments" variant="h6" fontWeight={700} color="text" gutterBottom>
-              3. Payments
+            {/* 3. Accounts */}
+            <ArgonTypography
+              id="accounts"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              3. Accounts
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              To access certain features, you must create an account. You agree to:
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Provide accurate and complete information.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Maintain the confidentiality of your login credentials.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Be responsible for all activity under your account.
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              Subscriptions are billed through Stripe. All fees are non-refundable unless required
-              by law.
+              We may suspend or terminate your account if you violate these Terms.
             </ArgonTypography>
 
+            {/* 4. Payments & Subscriptions */}
+            <ArgonTypography
+              id="payments"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              4. Payments &amp; Subscriptions
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Fees are charged via Stripe.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              All payments are due in advance and are non-refundable unless required by law.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              We may change pricing with prior notice; continued use constitutes acceptance of new
+              fees.
+            </ArgonTypography>
+
+            {/* 5. Acceptable Use */}
             <ArgonTypography
               id="acceptable-use"
               variant="h6"
               fontWeight={700}
               color="text"
               gutterBottom
+              sx={{ mt: 2 }}
             >
-              4. Acceptable Use
+              5. Acceptable Use
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
-              Do not reverse engineer, copy, or resell the Service.
+              You agree not to:
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
-              Do not use the Service for unlawful or harmful purposes.
+              Reverse engineer, copy, resell, or misuse the Service.
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
-              Do not attempt to gain unauthorized access to our systems.
+              Use the Service for unlawful, fraudulent, or harmful purposes.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              Interfere with the operation or security of the Service.
             </ArgonTypography>
 
+            {/* 6. Intellectual Property */}
             <ArgonTypography
               id="ip"
               variant="h6"
@@ -147,46 +178,134 @@ export default function Terms() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              5. Intellectual Property
+              6. Intellectual Property
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              All content, software, and branding belong to LookThroughProfits, Inc. You are granted
-              a limited, non-transferable license to use the Service.
+              All content, software, and branding provided through the Service are owned by
+              LookThroughProfits, Inc. You are granted a limited, non-exclusive, non-transferable
+              license to use the Service for personal or internal business purposes only.
             </ArgonTypography>
 
-            <ArgonTypography id="liability" variant="h6" fontWeight={700} color="text" gutterBottom>
-              6. Limitation of Liability
-            </ArgonTypography>
-            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We make no warranties regarding accuracy, completeness, or results. We are not liable
-              for any investment decisions made based on the Service.
-            </ArgonTypography>
-
+            {/* 7. Disclaimers */}
             <ArgonTypography
-              id="termination"
+              id="disclaimers"
               variant="h6"
               fontWeight={700}
               color="text"
               gutterBottom
+              sx={{ mt: 2 }}
             >
-              7. Termination
+              7. Disclaimers
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              The Service is provided on an &quot;as-is&quot; and &quot;as-available&quot; basis. We
+              make no warranties, express or implied, regarding:
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Accuracy, completeness, or reliability of the information.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Availability or uninterrupted access.
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We may suspend or terminate accounts that violate these terms.
+              Suitability of the Service for any investment decision.
             </ArgonTypography>
 
-            <ArgonTypography id="law" variant="h6" fontWeight={700} color="text" gutterBottom>
-              8. Governing Law
+            {/* 8. Limitation of Liability */}
+            <ArgonTypography
+              id="liability"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              8. Limitation of Liability
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              These Terms are governed by the laws of Delaware and the United States.
+              To the maximum extent permitted by law, LookThroughProfits, Inc. and its officers,
+              directors, employees, and affiliates are not liable for any indirect, incidental, or
+              consequential damages, including but not limited to loss of profits, arising out of or
+              related to the use of the Service.
             </ArgonTypography>
 
-            <ArgonBox mt={4}>
-              <Link href="#top" underline="hover">
-                Back to top
+            {/* 9. Indemnification */}
+            <ArgonTypography
+              id="indemnification"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              9. Indemnification
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              You agree to indemnify and hold harmless LookThroughProfits, Inc. from any claims,
+              liabilities, damages, or expenses resulting from your use of the Service or violation
+              of these Terms.
+            </ArgonTypography>
+
+            {/* 10. Governing Law & Disputes */}
+            <ArgonTypography
+              id="law"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              10. Governing Law &amp; Disputes
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              These Terms are governed by the laws of the State of Delaware, United States, without
+              regard to conflict-of-law principles. Any disputes shall be resolved in the courts
+              located in Delaware.
+            </ArgonTypography>
+
+            {/* 11. Changes */}
+            <ArgonTypography
+              id="changes"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              11. Changes
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              We may update these Terms from time to time. Material changes will be communicated via
+              email or a notice on the website. Continued use of the Service after changes take
+              effect constitutes acceptance.
+            </ArgonTypography>
+
+            {/* 12. Contact Us */}
+            <ArgonTypography
+              id="contact"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              12. Contact Us
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              Questions about these Terms may be directed to:{" "}
+              <Link href="mailto:support@lookthroughprofits.com">
+                support@lookthroughprofits.com
               </Link>
-            </ArgonBox>
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              LookThroughProfits, Inc.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              169 Madison Ave STE 38180
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              New York, NY 10016, USA
+            </ArgonTypography>
           </Card>
         </ArgonBox>
       </ArgonBox>
