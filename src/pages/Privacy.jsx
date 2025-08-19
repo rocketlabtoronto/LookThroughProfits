@@ -28,144 +28,86 @@ export default function Privacy() {
             <ArgonTypography variant="h4" fontWeight="bold" color="text" gutterBottom>
               Privacy Policy
             </ArgonTypography>
-            <Divider sx={{ my: 3 }} />
-            {/* Table of Contents */}
-            <ArgonTypography variant="subtitle2" color="text" fontWeight={700} gutterBottom>
-              Contents
+
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Effective Date: {effectiveDate}
             </ArgonTypography>
-            <Link
-              href="#info-we-collect"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mt: 1,
-                mb: 0.5,
-              }}
-            >
-              1. Information We Collect
-            </Link>
-            <Link
-              href="#how-we-use"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              2. How We Use Information
-            </Link>
-            <Link
-              href="#sharing"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              3. Sharing of Information
-            </Link>
-
-            <Link
-              href="#retention"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              4. Data Retention
-            </Link>
-
-            <Link
-              href="#security"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              5. Security
-            </Link>
-            <Link
-              href="#rights"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              6. Your Rights
-            </Link>
-            <Link
-              href="#international"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 0.5,
-              }}
-            >
-              7. International Users
-            </Link>
-            <Link
-              href="#changes"
-              underline="hover"
-              sx={{
-                display: "block",
-                fontSize: "1rem",
-                lineHeight: 1.4,
-                mb: 2,
-              }}
-            >
-              8. Changes
-            </Link>
-
-            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              LookThroughProfits, Inc. (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) provides
-              subscription software that delivers financial analytics based on public company
-              filings. This Privacy Policy explains how we collect, use, and protect your
-              information.
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Company: LookThroughProfits, Inc.
             </ArgonTypography>
-
+            <ArgonTypography variant="body2" color="text" display="block" sx={{ lineHeight: 1.7 }}>
+              Address: 169 Madison Ave STE 38180, New York, NY 10016, USA
+            </ArgonTypography>
             <ArgonTypography
-              id="info-we-collect"
+              variant="body2"
+              color="text"
+              display="block"
+              sx={{ lineHeight: 1.7, mb: 1 }}
+            >
+              Contact:{" "}
+              <Link href="mailto:support@lookthroughprofits.com">
+                support@lookthroughprofits.com
+              </Link>
+            </ArgonTypography>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* 1. Introduction */}
+            <ArgonTypography
+              id="introduction"
               variant="h6"
               fontWeight={700}
               color="text"
               gutterBottom
             >
-              1. Information We Collect
+              1. Introduction
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              LookThroughProfits, Inc. (&quot;LookThroughProfits,&quot; &quot;we,&quot;
+              &quot;our,&quot; or &quot;us&quot;) respects your privacy and is committed to
+              protecting your personal information. This Privacy Policy explains what information we
+              collect, how we use it, and the rights you have with respect to that information.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              By using LookThroughProfits.com or any of our services (the &quot;Service&quot;), you
+              consent to this Privacy Policy.
             </ArgonTypography>
 
-            <ArgonTypography variant="body2" color="text">
-              Account details (name, email, login credentials)
+            {/* 2. Information We Collect */}
+            <ArgonTypography
+              id="information-we-collect"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              2. Information We Collect
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              We collect the following categories of information:
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Account Information:</i> Name, email address, login credentials, and subscription
+              details.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Payment Information:</i> Processed securely by our third-party payment provider
+              (Stripe). We do not store credit card numbers.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Usage Data:</i> Pages visited, features used, browser type, device type, IP
+              address, and similar analytics data.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Communications:</i> Messages you send us through email or support.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Business Customer Data:</i> If you are an organization, we may process limited
+              personal data on your behalf (e.g., user login details).
             </ArgonTypography>
 
-            <ArgonTypography variant="body2" color="text">
-              Billing information (processed by Stripe)
-            </ArgonTypography>
-
-            <ArgonTypography variant="body2" color="text">
-              Usage data (pages viewed, features used, device/browser)
-            </ArgonTypography>
-
-            <ArgonTypography variant="body2" color="text">
-              Communications you send us
-            </ArgonTypography>
-
+            {/* 3. How We Use Information */}
             <ArgonTypography
               id="how-we-use"
               variant="h6"
@@ -174,21 +116,28 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              2. How We Use Information
+              3. How We Use Information
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
-              Provide and improve our services
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              We use collected information to:
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
-              Process payments and subscriptions
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Provide, operate, and improve the Service.
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
-              Communicate with you about updates, features, or support
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Process payments and manage subscriptions.
             </ArgonTypography>
-            <ArgonTypography variant="body2" color="text">
-              Ensure security and prevent misuse
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Communicate with you about updates, features, and support.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Monitor system performance and prevent misuse or fraud.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Comply with legal and regulatory obligations.
             </ArgonTypography>
 
+            {/* 4. Sharing of Information */}
             <ArgonTypography
               id="sharing"
               variant="h6"
@@ -197,13 +146,26 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              3. Sharing of Information
+              4. Sharing of Information
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We do not sell your data. We may share limited information with service providers
-              (Stripe, Supabase, hosting, analytics) and with legal authorities if required by law.
+              We do not sell or rent personal data. We may share information with:
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Service Providers:</i> Such as Stripe (payments), Supabase (database/hosting),
+              cloud providers, analytics tools, and email delivery services.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Legal Authorities:</i> When required to comply with applicable law, regulation, or
+              legal process.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              <i>Corporate Transactions:</i> If LookThroughProfits is involved in a merger,
+              acquisition, or sale of assets, information may be transferred as part of that
+              transaction.
             </ArgonTypography>
 
+            {/* 5. Data Retention */}
             <ArgonTypography
               id="retention"
               variant="h6"
@@ -212,13 +174,14 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              4. Data Retention
+              5. Data Retention
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We retain data only as long as necessary to provide services or comply with legal
-              obligations.
+              We retain personal information only for as long as necessary to provide the Service,
+              comply with legal obligations, and resolve disputes.
             </ArgonTypography>
 
+            {/* 6. Security */}
             <ArgonTypography
               id="security"
               variant="h6"
@@ -227,32 +190,15 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              5. Security
+              6. Security
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We use reasonable technical and organizational measures to protect data. No system is
-              100% secure.
+              We implement technical and organizational measures (encryption in transit/at rest,
+              access controls, monitoring) to protect your data. However, no method of transmission
+              or storage is 100% secure, and we cannot guarantee absolute security.
             </ArgonTypography>
 
-            <ArgonTypography
-              id="rights"
-              variant="h6"
-              fontWeight={700}
-              color="text"
-              gutterBottom
-              sx={{ mt: 2 }}
-            >
-              6. Your Rights
-            </ArgonTypography>
-            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              Depending on your location, you may have rights to access, correct, or delete your
-              data. Contact us at
-              <Link href="mailto:support@lookthroughprofits.com" sx={{ ml: 0.5 }}>
-                support@lookthroughprofits.com
-              </Link>
-              .
-            </ArgonTypography>
-
+            {/* 7. International Transfers */}
             <ArgonTypography
               id="international"
               variant="h6"
@@ -261,12 +207,68 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              7. International Users
+              7. International Transfers
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              Data may be stored in the United States and accessed from other regions.
+              Your information may be stored and processed in the United States and accessed from
+              other jurisdictions. By using the Service, you consent to such transfers.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              For Canadian users, we comply with PIPEDA. For European users, we apply safeguards
+              consistent with the GDPR.
             </ArgonTypography>
 
+            {/* 8. Your Rights */}
+            <ArgonTypography
+              id="rights"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              8. Your Rights
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              Depending on your jurisdiction, you may have the right to:
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Access, correct, or delete your personal data.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Withdraw consent to processing.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              Request data portability.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7, mb: 1 }}>
+              File a complaint with a supervisory authority.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              Requests can be made to{" "}
+              <Link href="mailto:support@lookthroughprofits.com">
+                support@lookthroughprofits.com
+              </Link>
+              .
+            </ArgonTypography>
+
+            {/* 9. Children’s Privacy */}
+            <ArgonTypography
+              id="children"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              9. Children&rsquo;s Privacy
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              The Service is not directed at children under 18, and we do not knowingly collect
+              personal information from children.
+            </ArgonTypography>
+
+            {/* 10. Changes */}
             <ArgonTypography
               id="changes"
               variant="h6"
@@ -275,17 +277,39 @@ export default function Privacy() {
               gutterBottom
               sx={{ mt: 2 }}
             >
-              8. Changes
+              10. Changes
             </ArgonTypography>
             <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
-              We may update this policy and will notify users via email or site notice.
+              We may update this Privacy Policy from time to time. Material changes will be
+              communicated by email or a notice on our website.
             </ArgonTypography>
 
-            <ArgonBox mt={4}>
-              <Link href="#top" underline="hover">
-                Back to top
+            {/* 11. Contact Us */}
+            <ArgonTypography
+              id="contact"
+              variant="h6"
+              fontWeight={700}
+              color="text"
+              gutterBottom
+              sx={{ mt: 2 }}
+            >
+              11. Contact Us
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" paragraph sx={{ lineHeight: 1.7 }}>
+              If you have any questions or concerns about this Privacy Policy, contact us at:{" "}
+              <Link href="mailto:support@lookthroughprofits.com">
+                support@lookthroughprofits.com
               </Link>
-            </ArgonBox>
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              LookThroughProfits, Inc.
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              169 Madison Ave STE 38180
+            </ArgonTypography>
+            <ArgonTypography variant="body2" color="text" sx={{ lineHeight: 1.7 }}>
+              New York, NY 10016, USA
+            </ArgonTypography>
           </Card>
         </ArgonBox>
       </ArgonBox>
