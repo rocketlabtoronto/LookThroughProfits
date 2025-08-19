@@ -17,10 +17,13 @@ function Footer({ company = { href: "#", name: "Company" }, links = [] }) {
   const { size } = typography;
 
   const renderLinks = () =>
-    links.map((link) => (
+    [
+      { name: "Privacy", href: "/privacy" },
+      { name: "Terms", href: "/terms" },
+    ].map((link) => (
       <ArgonBox key={link.name} component="li" px={2} lineHeight={1}>
-        <Link href={link.href} target="_blank" rel="noreferrer">
-          <ArgonTypography variant="button" fontWeight="regular" color="text">
+        <Link href={link.href} rel="noreferrer">
+          <ArgonTypography variant="button" fontWeight="regular" color="white">
             {link.name}
           </ArgonTypography>
         </Link>
@@ -44,7 +47,12 @@ function Footer({ company = { href: "#", name: "Company" }, links = [] }) {
         color="text"
         fontSize={size.sm}
         px={1.5}
-      ></ArgonBox>
+      >
+        <ArgonTypography variant="caption" color="white">
+          © {new Date().getFullYear()} LookThroughProfits, Inc. | 169 Madison Ave STE 38180, New
+          York, NY 10016 | support@lookthroughprofits.com
+        </ArgonTypography>
+      </ArgonBox>
       <ArgonBox
         component="ul"
         sx={({ breakpoints }) => ({

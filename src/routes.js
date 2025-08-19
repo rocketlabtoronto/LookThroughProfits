@@ -8,6 +8,8 @@ import IncomeStatement from "layouts/incomeStatement/IncomeStatement";
 import SetPassword from "layouts/setPassword/setPassword";
 import SendPasswordReset from "layouts/sendPasswordReset/sendPasswordReset";
 import Login from "layouts/login/login";
+import Privacy from "pages/Privacy";
+import Terms from "pages/Terms";
 
 import ArgonBox from "components/ArgonBox";
 import RequireAuth from "components/RequireAuth";
@@ -128,6 +130,24 @@ const routes = [
         <LookThroughEarningsManual />
       </RequireBrokerageConnected>
     ),
+  },
+  {
+    type: "route",
+    name: "Privacy Policy",
+    key: "privacy",
+    route: "/privacy",
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-single-copy-04" />,
+    component: <Privacy />,
+    hidden: true,
+  },
+  {
+    type: "route",
+    name: "Terms of Use",
+    key: "terms",
+    route: "/terms",
+    icon: <ArgonBox component="i" color="black" fontSize="14px" className="ni ni-book-bookmark" />,
+    component: <Terms />,
+    hidden: true,
   },
 ];
 

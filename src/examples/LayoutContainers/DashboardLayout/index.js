@@ -37,16 +37,8 @@ function DashboardLayout({ bgColor, children, ...rest }) {
         },
       })}
     >
-      <ArgonBox
-        bgColor={background || "info"}
-        height="300px"
-        width="100vw"
-        position="absolute"
-        top={0}
-        left={0}
-        sx={darkMode && { bgColor: ({ palette: { background } }) => background.default }}
-        {...rest}
-      />
+      {/* Removed header background that created the top gap */}
+      <ArgonBox sx={{ display: "none" }} />
       {children}
     </ArgonBox>
   );

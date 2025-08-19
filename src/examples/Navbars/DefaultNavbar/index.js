@@ -144,7 +144,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="body2"
                 sx={{
                   fontWeight: 500,
-                  color: "#344767",
+                  color: "#fff",
                   textAlign: "right",
                   fontSize: 13,
                   lineHeight: 1.2,
