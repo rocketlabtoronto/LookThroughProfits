@@ -3,7 +3,7 @@ import Stripe from "npm:stripe";
 import { Resend } from "https://esm.sh/resend";
 // --- Config ---
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
-  apiVersion: "2023-08-16",
+  apiVersion: "2025-07-30.basil",
 });
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -11,6 +11,22 @@ const headers = {
   apikey: SERVICE_ROLE_KEY,
   Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
   "Content-Type": "application/json",
+};
+// Map Stripe -> DB
+// If your DB expects 'monthly'/'yearly', use this:
+const mapStripeIntervalToDB = (s) => {
+  switch (s) {
+    case "month":
+      return "monthly";
+    case "year":
+      return "yearly";
+    case "week":
+      return "weekly"; // include only if your CHECK allows it
+    case "day":
+      return "daily"; // include only if your CHECK allows it
+    default:
+      return null; // invalid/unknown -> don't send
+  }
 };
 // --- Error Logging Service ---
 const logWebhookError = async (eventType, email, step, errorMsg) =>
@@ -69,9 +85,9 @@ const createUser = async (email) => {
 const updateSubscription = async (userId, interval, phone) => {
   const payload = {
     is_subscribed: true,
-    phone: phone,
-    subscription_interval: interval,
   };
+  if (phone) payload.phone = phone;
+  if (interval) payload.subscription_interval = interval; // only if valid
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users?id=eq.${userId}`, {
     method: "PATCH",
     headers,
@@ -219,45 +235,64 @@ const sendEmail = async (to, interval) => {
 };
 // --- Stripe Webhook Handler ---
 async function processSubscription(event) {
-  var interval = "";
-  var fallbackInterval = "";
-  var email = "";
-  var phone = "";
-  await logWebhookError(event.type, "", 0, JSON.stringify(event));
+  await logWebhookError(event.type, "", 0, "event received");
   if (event.type !== "invoice.payment_succeeded") return;
-  const subscription = event.data.object;
-  email = event.data.object.customer_email;
-  phone = event.data.object.customer_phone;
-  interval = event.data.object.lines.data[0].plan.interval;
-  if (!email) {
-    await logWebhookError(event.type, "", 0, "No clientEmail found in session object.");
-    console.log("No clientEmail found in session object.");
-    return;
-  }
-  let user = null;
-  try {
-    user = await fetchUser(email);
-  } catch (err) {
-    await logWebhookError(event.type, email, 1, err.message);
-    return;
-  }
-  if (!user) {
+  const invoice = event.data.object;
+  // Prefer email/phone on the invoice; backfill from Customer if needed
+  let email = invoice.customer_email ?? "";
+  let phone = invoice.customer_phone ?? "";
+  let interval = "";
+  // 1) Try to read interval from the first invoice line (new & old shapes)
+  const firstLine = invoice.lines?.data?.[0];
+  interval =
+    firstLine?.price?.recurring?.interval ?? // modern schema
+    firstLine?.plan?.interval ?? // legacy fallback
+    "";
+  // 2) If interval still unknown, look up the subscription (robust fallback)
+  if (!interval && invoice.subscription) {
     try {
+      const subId =
+        typeof invoice.subscription === "string" ? invoice.subscription : invoice.subscription.id;
+      const sub = await stripe.subscriptions.retrieve(subId);
+      const item = sub.items.data[0];
+      interval =
+        item?.price?.recurring?.interval ?? // modern
+        item?.plan?.interval ?? // legacy
+        "";
+    } catch (e) {
+      await logWebhookError(event.type, email, 0, `subscription lookup failed: ${e.message}`);
+    }
+  }
+  // 3) If email/phone missing, fetch the Customer
+  if ((!email || !phone) && invoice.customer && typeof invoice.customer === "string") {
+    try {
+      const customer = await stripe.customers.retrieve(invoice.customer);
+      if (!("deleted" in customer)) {
+        email ||= customer.email ?? "";
+        phone ||= customer.phone ?? "";
+      }
+    } catch (e) {
+      await logWebhookError(event.type, email, 0, `customer lookup failed: ${e.message}`);
+    }
+  }
+  if (!email) {
+    await logWebhookError(event.type, "", 0, "No customer email on invoice/customer.");
+    return;
+  }
+  try {
+    // Create or fetch user
+    let user = await fetchUser(email);
+    if (!user) {
       await createUser(email);
       user = await fetchUser(email);
-    } catch (err) {
-      await logWebhookError(event.type, email, 2, err.message);
-      return;
     }
-  }
-  if (user) {
-    try {
-      await updateSubscription(user.id, interval, phone);
-      // Send Emails
-      await sendEmail(email, interval); // Send email after subscription update
-    } catch (err) {
-      await logWebhookError(event.type, email, 3, err.message);
+    if (user) {
+      const normalized = mapStripeIntervalToDB(interval);
+      await updateSubscription(user.id, normalized, phone || "");
+      await sendEmail(email, interval || "your");
     }
+  } catch (err) {
+    await logWebhookError(event.type, email, 3, err.message);
   }
 }
 // --- Entry Point ---

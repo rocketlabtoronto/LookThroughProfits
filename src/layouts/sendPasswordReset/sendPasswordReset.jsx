@@ -1,6 +1,6 @@
 import { useState } from "react";
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL!;
-const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY!;
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const headers = {
   apikey: SUPABASE_ANON_KEY,
   Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
@@ -10,11 +10,11 @@ const logo = "/logos/logo_image.png";
 
 export default function SendPasswordReset() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email) => {
     // Simple regex for email validation
     return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
   };
@@ -27,11 +27,20 @@ export default function SendPasswordReset() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`${SUPABASE_URL}/functions/v1/send-password-reset-link-email`, {
+      const url = `${SUPABASE_URL}/functions/v1/send-password-reset-link-email`;
+      const requestConfig = {
         method: "POST",
         headers,
         body: JSON.stringify({ email }),
-      });
+      };
+
+      console.log("🚀 Edge Function Call - sendPasswordReset:");
+      console.log("URL:", url);
+      console.log("Config:", requestConfig);
+      console.log("SUPABASE_URL:", SUPABASE_URL);
+      console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
+
+      const res = await fetch(url, requestConfig);
       const data = await res.json();
       if (!res.ok || data.error) {
         setError(data.error || `Supabase error: ${res.status}`);

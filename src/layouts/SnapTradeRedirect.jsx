@@ -8,7 +8,8 @@ const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 async function fetchSnapTradeAccounts(userId, userSecret) {
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/snaptrade-accounts`, {
+  const url = `${SUPABASE_URL}/functions/v1/snaptrade-accounts`;
+  const requestConfig = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +17,15 @@ async function fetchSnapTradeAccounts(userId, userSecret) {
       apikey: SUPABASE_ANON_KEY,
     },
     body: JSON.stringify({ userId, userSecret }),
-  });
+  };
+
+  console.log("🚀 Edge Function Call - fetchSnapTradeAccounts:");
+  console.log("URL:", url);
+  console.log("Config:", requestConfig);
+  console.log("SUPABASE_URL:", SUPABASE_URL);
+  console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
+
+  const res = await fetch(url, requestConfig);
 
   if (!res.ok) {
     console.error("SnapTrade API call failed with status:", res.status);

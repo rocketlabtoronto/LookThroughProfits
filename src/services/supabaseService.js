@@ -15,14 +15,23 @@ const supabaseService = {
    * @returns {Promise<boolean>} - True if registered, false otherwise.
    */
   async getSnapTradeUser(userId) {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/get-users`, {
+    const url = `${SUPABASE_URL}/functions/v1/get-users`;
+    const requestConfig = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         apikey: SUPABASE_ANON_KEY,
       },
-    });
+    };
+
+    console.log("🚀 Edge Function Call - getSnapTradeUser:");
+    console.log("URL:", url);
+    console.log("Config:", requestConfig);
+    console.log("SUPABASE_URL:", SUPABASE_URL);
+    console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
+
+    const res = await fetch(url, requestConfig);
     if (!res.ok) {
       throw new Error(`SnapTrade get-users error: ${res.status}`);
     }
@@ -59,7 +68,8 @@ const supabaseService = {
 
   // You can add more methods here
   async getSnapTradeLoginLink(userId, userSecret) {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/login-user`, {
+    const url = `${SUPABASE_URL}/functions/v1/login-user`;
+    const requestConfig = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +77,15 @@ const supabaseService = {
         apikey: SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({ userId, userSecret }),
-    });
+    };
+
+    console.log("🚀 Edge Function Call - getSnapTradeLoginLink:");
+    console.log("URL:", url);
+    console.log("Config:", requestConfig);
+    console.log("SUPABASE_URL:", SUPABASE_URL);
+    console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
+
+    const res = await fetch(url, requestConfig);
     if (!res.ok) {
       throw new Error(`SnapTrade login link error: ${res.status}`);
     }
@@ -76,7 +94,8 @@ const supabaseService = {
   },
 
   async registerUser(userId) {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/snaptrade-register-user`, {
+    const url = `${SUPABASE_URL}/functions/v1/snaptrade-register-user`;
+    const requestConfig = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +103,15 @@ const supabaseService = {
         apikey: SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({ userId }),
-    });
+    };
+
+    console.log("🚀 Edge Function Call - registerUser:");
+    console.log("URL:", url);
+    console.log("Config:", requestConfig);
+    console.log("SUPABASE_URL:", SUPABASE_URL);
+    console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
+
+    const res = await fetch(url, requestConfig);
     if (!res.ok) {
       throw new Error(`SnapTrade register user error: ${res.status}`);
     }

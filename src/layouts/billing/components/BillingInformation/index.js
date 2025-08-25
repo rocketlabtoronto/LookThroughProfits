@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
 export default function BillingSection() {
+  const pricingTableId = process.env.REACT_APP_STRIPE_PRICING_TABLE_ID;
+  const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
   useEffect(() => {
     // Dynamically add Stripe Pricing Table script
@@ -31,7 +33,7 @@ export default function BillingSection() {
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: `<stripe-pricing-table pricing-table-id="prctbl_1RmqJv2LzMkIzpdDWLDVxpFo" publishable-key="pk_test_z0VhfWM9rkUycPiMvzQXojLv"></stripe-pricing-table>`,
+        __html: `<stripe-pricing-table pricing-table-id="${pricingTableId}" publishable-key="${publishableKey}"></stripe-pricing-table>`,
       }}
     />
   );

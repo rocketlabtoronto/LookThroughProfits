@@ -24,9 +24,8 @@ import { useAppStore } from "../../stores/store";
 
 function Billing() {
   const userSession = useAppStore((state) => state.session);
-  const monthlyPriceId = "price_1RmkNY2LzMkIzpdDw5MeMEfD";
-  const yearlyPriceId = "price_1Rml7V2LzMkIzpdDdynGsUOE";
-
+  const starter = process.env.REACT_APP_STRIPE_STARTER_PRICE_ID;
+  const professional = process.env.REACT_APP_STRIPE_PROFESSIONAL_PRICE_ID;
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -44,8 +43,8 @@ function Billing() {
             }}
           >
             <BillingInformation
-              monthlyPriceId={monthlyPriceId}
-              yearlyPriceId={yearlyPriceId}
+              monthlyPriceId={starter}
+              yearlyPriceId={professional}
               userSession={userSession}
             />
           </Card>
