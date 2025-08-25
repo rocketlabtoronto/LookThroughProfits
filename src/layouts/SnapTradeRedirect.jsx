@@ -4,9 +4,8 @@ import { useAuthStore } from "stores/useAuthStore";
 import { useAppStore } from "stores/store";
 import supabaseService from "services/supabaseService";
 
-const SUPABASE_URL = "https://ioggynmosufvlozhlhta.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZ2d5bm1vc3VmdmxvemhsaHRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NjAwNjYsImV4cCI6MjA2ODAzNjA2Nn0.GAeN2VyPAMWaB3GzDswQ2CH2YPpFP2KizRpRNBQbiEE";
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 async function fetchSnapTradeAccounts(userId, userSecret) {
   const res = await fetch(`${SUPABASE_URL}/functions/v1/snaptrade-accounts`, {

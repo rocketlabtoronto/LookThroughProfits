@@ -5,7 +5,7 @@ import { Resend } from "https://esm.sh/resend";
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
   apiVersion: "2023-08-16",
 });
-const SUPABASE_URL = "https://ioggynmosufvlozhlhta.supabase.co";
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const headers = {
   apikey: SERVICE_ROLE_KEY,
@@ -94,20 +94,17 @@ const sendEmail = async (to, interval) => {
   // Call the send-password_setup_link edge function to get the password setup link
   let activationUrl = "";
   try {
-    const resp = await fetch(
-      `https://ioggynmosufvlozhlhta.supabase.co/functions/v1/send_password_setup_link`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-          apikey: SERVICE_ROLE_KEY,
-        },
-        body: JSON.stringify({
-          email: to,
-        }),
-      }
-    );
+    const resp = await fetch(`${SUPABASE_URL}/functions/v1/send_password_setup_link`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+        apikey: SERVICE_ROLE_KEY,
+      },
+      body: JSON.stringify({
+        email: to,
+      }),
+    });
     if (!resp.ok) {
       throw new Error(`send_password_setup_link failed: ${resp.status}`);
     }
