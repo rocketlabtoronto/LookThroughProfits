@@ -13,7 +13,7 @@ export const brokerages = {
     },
     {
       name: "CIBC Investor's Edge",
-      logo: "/logos/cibc.png",
+      logo: "/logos/CIBC.png",
       integration: isIntegrationAvailable.notAvailable,
     },
     {
@@ -38,7 +38,7 @@ export const brokerages = {
     },
     {
       name: "TD Direct Investing",
-      logo: "/logos/td.png",
+      logo: "/logos/TD.png",
       integration: isIntegrationAvailable.notAvailable,
     },
     {
