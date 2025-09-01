@@ -13,17 +13,17 @@ const headers = {
   "Content-Type": "application/json",
 };
 // Map Stripe -> DB
-// If your DB expects 'monthly'/'yearly', use this:
+// Return original Stripe values to match DB constraint
 const mapStripeIntervalToDB = (s) => {
   switch (s) {
     case "month":
-      return "monthly";
+      return "month";
     case "year":
-      return "yearly";
+      return "year";
     case "week":
-      return "weekly"; // include only if your CHECK allows it
+      return "week"; // include only if your CHECK allows it
     case "day":
-      return "daily"; // include only if your CHECK allows it
+      return "day"; // include only if your CHECK allows it
     default:
       return null; // invalid/unknown -> don't send
   }
@@ -82,12 +82,13 @@ const createUser = async (email) => {
   }
 };
 // --- Step 3: Update User Subscription ---
-const updateSubscription = async (userId, interval, phone) => {
-  const payload = {
+const updateSubscription = async (userId, interval, phone, stripeClientId) => {
+  const payload: any = {
     is_subscribed: true,
   };
   if (phone) payload.phone = phone;
   if (interval) payload.subscription_interval = interval; // only if valid
+  if (stripeClientId) payload.stripe_client_id = stripeClientId;
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users?id=eq.${userId}`, {
     method: "PATCH",
     headers,
@@ -241,13 +242,20 @@ async function processSubscription(event) {
   // Prefer email/phone on the invoice; backfill from Customer if needed
   let email = invoice.customer_email ?? "";
   let phone = invoice.customer_phone ?? "";
+  let customer_id = invoice.customer ?? "";
   let interval = "";
-  // 1) Try to read interval from the first invoice line (new & old shapes)
+  // 1) Try to read interval from the first invoice line description
   const firstLine = invoice.lines?.data?.[0];
-  interval =
-    firstLine?.price?.recurring?.interval ?? // modern schema
-    firstLine?.plan?.interval ?? // legacy fallback
-    "";
+  const description = firstLine?.description?.toLowerCase() || "";
+  
+  await logWebhookError(event.type, email, 0, `Line description: "${description}"`);
+  
+  if (description.includes("year") || description.includes("annual") || description.includes("yearly")) {
+    interval = "year";
+  } else if (description.includes("month") || description.includes("monthly")) {
+    interval = "month";
+  }
+  
   // 2) If interval still unknown, look up the subscription (robust fallback)
   if (!interval && invoice.subscription) {
     try {
@@ -288,7 +296,8 @@ async function processSubscription(event) {
     }
     if (user) {
       const normalized = mapStripeIntervalToDB(interval);
-      await updateSubscription(user.id, normalized, phone || "");
+      await logWebhookError(event.type, email, 0, `Original interval: ${interval}, Normalized: ${normalized}`);
+      await updateSubscription(user.id, normalized, phone || "", customer_id);
       await sendEmail(email, interval || "your");
     }
   } catch (err) {
